@@ -1,0 +1,87 @@
+&#x20;Step 7 completed successfully!
+
+Your latest screenshot confirms that **you've successfully changed a real weight in Gemma 4 E4B and observed a change in the model's generated response.**
+
+This is an important milestone for your Hydra Open-Weight Programming project.
+
+## **1. Your actual experiment results**
+
+Original weight
+
+## **0.984375**
+
+Modified weight
+
+## **0.99609375**
+
+Actual change
+
+## **+0.01171875**
+
+**Generated responses**
+
+Different
+
+The screenshot reports `Responses Identical: False`.
+
+The tensor you changed was:
+
+```
+language_model.model.layers.0.self_attn.q_norm.weight
+```
+
+Specifically, you modified the first element of a query-normalization weight tensor in the first transformer layer.
+
+## **2. What changed in Gemma's answer?**
+
+| Original model                                | Modified model                                           |
+| --------------------------------------------- | -------------------------------------------------------- |
+| Explains Maven couldn't find the dependency   | Explains Maven couldn't resolve the specified dependency |
+| Recommends checking artifact coordinates      | Recommends verifying the artifact exists                 |
+| Recommends checking repository accessibility  | Recommends checking repository configuration             |
+| Mentions credentials for private repositories | Adds a network/access check                              |
+
+Both responses appear broadly relevant to the Jenkins error.
+
+**But the modified response is not necessarily better.** We haven't demonstrated a reduction in hallucinations or an improvement in reasoning.
+
+In fact, both answers end abruptly, suggesting they may have reached your generation token limit.
+
+## **3. What this means for Open-Weight Programming**
+
+You've now demonstrated:
+
+Loading a real 4-bit MLX model
+
+Inspecting its internal parameters
+
+Modifying a weight without fine-tuning
+
+Comparing the model's behavior before and after
+
+Restoring the original parameter
+
+That's a working foundation for Hydra's open-weight programming experiments.
+
+## **4. The next experiment: find useful edits instead of random edits**
+
+Your manager's objective is not just to make Gemma generate a different answer. It's to make a small model **more reliable at reasoning and less likely to hallucinate**.
+
+I recommend making your next file:
+
+`05_Weight_search.py`
+
+It would:
+
+1. Load your existing Gemma model.
+2. Select a small set of eligible normalization weights.
+3. Test several bounded positive and negative edits.
+4. Run a few Jenkins debugging questions for each candidate.
+5. Compare each result against the original model.
+6. Restore the original weights after every trial.
+7. Record which edits improve task accuracy without introducing unsupported claims.
+
+We can implement this entirely locally using Python and MLX, without fine-tuning or Opik.
+
+One caution: a single different response is not evidence that the edit improves the model. We need multiple test cases, objective correctness checks, and repeatable results.
+
