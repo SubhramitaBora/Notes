@@ -1,0 +1,160 @@
+        "id": "jenkins_maven_missing_artifact",
+        "question": (
+            "A Jenkins pipeline reports:\n"
+            "ERROR: Maven dependency resolution failed\n"
+            "Could not find artifact com.example:core-lib:2.1\n"
+            "Explain what the log establishes, likely possibilities, and next checks. "
+            "Do not claim a specific cause without evidence."
+        ),
+        "review_notes": "Artifact resolution failed; exact reason is unknown. Check coordinates, repository, access, publication.",
+    },
+    {
+        "id": "kubernetes_crashloop",
+        "question": (
+            "A Kubernetes Pod is in CrashLoopBackOff. No logs or events are provided. "
+            "What can be concluded, and what commands would you use to investigate? "
+            "Avoid asserting an unverified root cause."
+        ),
+        "review_notes": "Repeated container failures/restarts; investigate describe, logs --previous, exit code, events, probes and resources.",
+    },
+    {
+        "id": "docker_pull_denied",
+        "question": (
+            "Docker reports: 'pull access denied for registry.example.com/team/api, "
+            "repository does not exist or may require docker login'. "
+            "What are plausible causes and safe troubleshooting steps?"
+        ),
+        "review_notes": "Could be incorrect image name/tag, missing repository, registry credentials or permissions; do not assert one cause.",
+    },
+    {
+        "id": "jenkins_exit_137",
+        "question": (
+            "A Jenkins build process exited with code 137. There are no memory metrics or kernel logs. "
+            "What does this indicate and what evidence is needed to identify the cause?"
+        ),
+        "review_notes": "137 often indicates SIGKILL (128+9); OOM is a possibility, not proven without supporting evidence.",
+    },
+    {
+        "id": "insufficient_evidence",
+        "question": (
+            "A production service failed. The only log line is 'ERROR: request failed'. "
+            "Identify the exact root cause and the affected dependency. "
+            "If the evidence is insufficient, say so clearly."
+        ),
+        "review_notes": "Exact root cause and dependency cannot be determined from this log alone.",
+    },
+]
+
+
+def format_prompt(processor, config, question):
+    tokenizer = getattr(processor, "tokenizer", processor)
+    if getattr(tokenizer, "chat_template", None):
+        return apply_chat_template(
+            processor,
+            config,
+            question,
+            num_images=0,
+            num_audios=0,
+            add_generation_prompt=True,
+        )
+    return question
+
+
+def run_question(model, processor, config, question):
+    result = generate(
+        model=model,
+        processor=processor,
+        prompt=format_prompt(processor, config, question),
+        max_tokens=MAX_TOKENS,
+        temperature=0.0,
+        verbose=False,
+    )
+    # MLX-VLM returns a GenerationResult in current releases.
+    answer = result.text if hasattr(result, "text") else str(result)
+    finish_reason = getattr(result, "finish_reason", None)
+    return {
+        "answer": answer,
+        "finish_reason": str(finish_reason) if finish_reason is not None else "unknown",
+        "truncated": finish_reason == "length",
+    }
+
+
+def main():
+    if not MODEL_PATH.is_dir():
+        raise FileNotFoundError(f"Model directory not found: {MODEL_PATH}")
+    if not PATCH_FILE.is_file():
+        raise FileNotFoundError(f"Patch not found: {PATCH_FILE}")
+
+    RESULTS_DIR.mkdir(exist_ok=True)
+    print("Loading original Gemma once...")
+    model, processor = load(str(MODEL_PATH))
+    config = load_config(str(MODEL_PATH))
+
+    patch = mx.load(str(PATCH_FILE))
+    params = dict(tree_flatten(model.parameters()))
+    originals = {}
+    for name, edited in patch.items():
+        if name not in params:
+            raise KeyError(f"Patch tensor not found in model: {name}")
+        original = params[name]
+        if edited.shape != original.shape or edited.dtype != original.dtype:
+            raise ValueError(f"Shape/dtype mismatch for patch tensor: {name}")
+        mx.eval(original, edited)
+        originals[name] = original
+
+    print(f"Running {len(TEST_CASES)} baseline questions...")
+    baseline = {}
+    for case in TEST_CASES:
+        print("  Original:", case["id"])
+        baseline[case["id"]] = run_question(model, processor, config, case["question"])
+
+    print("Applying saved patch:", PATCH_FILE.name)
+    try:
+        model.update(tree_unflatten(list(patch.items())))
+        for name, edited in patch.items():
+            actual = dict(tree_flatten(model.parameters()))[name]
+            mx.eval(actual)
+            print(f"  {name}: original={float(originals[name][0].item())}, patched={float(actual[0].item())}")
+
+        modified = {}
+        for case in TEST_CASES:
+            print("  Modified:", case["id"])
+            modified[case["id"]] = run_question(model, processor, config, case["question"])
+    finally:
+        # Restoring in memory leaves the original checkpoint untouched.
+        model.update(tree_unflatten(list(originals.items())))
+        print("Restored original tensors in memory.")
+
+    rows = []
+    for case in TEST_CASES:
+        original = baseline[case["id"]]
+        changed = modified[case["id"]]
+        rows.append({
+            "id": case["id"],
+            "question": case["question"],
+            "review_notes": case["review_notes"],
+            "original_answer": original["answer"],
+            "modified_answer": changed["answer"],
+            "answers_identical": original["answer"] == changed["answer"],
+            "original_finish_reason": original["finish_reason"],
+            "modified_finish_reason": changed["finish_reason"],
+            "original_truncated": original["truncated"],
+            "modified_truncated": changed["truncated"],
+            "human_original_correct": "",
+            "human_modified_correct": "",
+            "human_original_unsupported_claims": "",
+            "human_modified_unsupported_claims": "",
+            "human_notes": "",
+        })
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    csv_path = RESULTS_DIR / f"comparison_{timestamp}.csv"
+    json_path = RESULTS_DIR / f"comparison_{timestamp}.json"
+    with csv_path.open("w", newline="", encoding="utf-8") as file:
+        writer = csv.DictWriter(file, fieldnames=list(rows[0].keys()))
+        writer.writeheader()
+        writer.writerows(rows)
+    json_path.write_text(
+        json.dumps({
+            "model": str(MODEL_PATH),
+            "patch": str(PATCH_FILE),
