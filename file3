@@ -1,3 +1,35 @@
+"""Hydra: compare an original MLX-VLM model with a saved weight patch.
+
+Run from your project directory:
+    python 07_Evaluate_model.py
+
+Requires: mlx, mlx-vlm. The original checkpoint is never modified on disk.
+"""
+
+import csv
+import json
+from datetime import datetime
+from pathlib import Path
+
+import mlx.core as mx
+from mlx.utils import tree_flatten, tree_unflatten
+from mlx_vlm import generate, load
+from mlx_vlm.prompt_utils import apply_chat_template
+from mlx_vlm.utils import load_config
+
+BASE_DIR = Path(__file__).resolve().parent
+MODEL_PATH = Path(
+    "/Users/s87633/Documents/Weight Space Programming/"
+    "Models/gemma-4-e4b-mlx-4bit-transformers-default-v1"
+)
+PATCH_FILE = BASE_DIR / "Hydra_Patches" / "gemma4_delta_020.safetensors"
+RESULTS_DIR = BASE_DIR / "evaluation_results"
+MAX_TOKENS = 500
+
+# These examples are intentionally small. Expand and hold out unseen cases
+# before making any claim about accuracy or hallucination reduction.
+TEST_CASES = [
+    {
         "id": "jenkins_maven_missing_artifact",
         "question": (
             "A Jenkins pipeline reports:\n"
@@ -62,99 +94,3 @@ def format_prompt(processor, config, question):
 
 def run_question(model, processor, config, question):
     result = generate(
-        model=model,
-        processor=processor,
-        prompt=format_prompt(processor, config, question),
-        max_tokens=MAX_TOKENS,
-        temperature=0.0,
-        verbose=False,
-    )
-    # MLX-VLM returns a GenerationResult in current releases.
-    answer = result.text if hasattr(result, "text") else str(result)
-    finish_reason = getattr(result, "finish_reason", None)
-    return {
-        "answer": answer,
-        "finish_reason": str(finish_reason) if finish_reason is not None else "unknown",
-        "truncated": finish_reason == "length",
-    }
-
-
-def main():
-    if not MODEL_PATH.is_dir():
-        raise FileNotFoundError(f"Model directory not found: {MODEL_PATH}")
-    if not PATCH_FILE.is_file():
-        raise FileNotFoundError(f"Patch not found: {PATCH_FILE}")
-
-    RESULTS_DIR.mkdir(exist_ok=True)
-    print("Loading original Gemma once...")
-    model, processor = load(str(MODEL_PATH))
-    config = load_config(str(MODEL_PATH))
-
-    patch = mx.load(str(PATCH_FILE))
-    params = dict(tree_flatten(model.parameters()))
-    originals = {}
-    for name, edited in patch.items():
-        if name not in params:
-            raise KeyError(f"Patch tensor not found in model: {name}")
-        original = params[name]
-        if edited.shape != original.shape or edited.dtype != original.dtype:
-            raise ValueError(f"Shape/dtype mismatch for patch tensor: {name}")
-        mx.eval(original, edited)
-        originals[name] = original
-
-    print(f"Running {len(TEST_CASES)} baseline questions...")
-    baseline = {}
-    for case in TEST_CASES:
-        print("  Original:", case["id"])
-        baseline[case["id"]] = run_question(model, processor, config, case["question"])
-
-    print("Applying saved patch:", PATCH_FILE.name)
-    try:
-        model.update(tree_unflatten(list(patch.items())))
-        for name, edited in patch.items():
-            actual = dict(tree_flatten(model.parameters()))[name]
-            mx.eval(actual)
-            print(f"  {name}: original={float(originals[name][0].item())}, patched={float(actual[0].item())}")
-
-        modified = {}
-        for case in TEST_CASES:
-            print("  Modified:", case["id"])
-            modified[case["id"]] = run_question(model, processor, config, case["question"])
-    finally:
-        # Restoring in memory leaves the original checkpoint untouched.
-        model.update(tree_unflatten(list(originals.items())))
-        print("Restored original tensors in memory.")
-
-    rows = []
-    for case in TEST_CASES:
-        original = baseline[case["id"]]
-        changed = modified[case["id"]]
-        rows.append({
-            "id": case["id"],
-            "question": case["question"],
-            "review_notes": case["review_notes"],
-            "original_answer": original["answer"],
-            "modified_answer": changed["answer"],
-            "answers_identical": original["answer"] == changed["answer"],
-            "original_finish_reason": original["finish_reason"],
-            "modified_finish_reason": changed["finish_reason"],
-            "original_truncated": original["truncated"],
-            "modified_truncated": changed["truncated"],
-            "human_original_correct": "",
-            "human_modified_correct": "",
-            "human_original_unsupported_claims": "",
-            "human_modified_unsupported_claims": "",
-            "human_notes": "",
-        })
-
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    csv_path = RESULTS_DIR / f"comparison_{timestamp}.csv"
-    json_path = RESULTS_DIR / f"comparison_{timestamp}.json"
-    with csv_path.open("w", newline="", encoding="utf-8") as file:
-        writer = csv.DictWriter(file, fieldnames=list(rows[0].keys()))
-        writer.writeheader()
-        writer.writerows(rows)
-    json_path.write_text(
-        json.dumps({
-            "model": str(MODEL_PATH),
-            "patch": str(PATCH_FILE),
