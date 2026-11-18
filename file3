@@ -196,6 +196,43 @@ def main():
         encoding="utf-8",
     )
 
+    # ==========================================
+    # SAVE HUMAN-READABLE TXT REPORT
+    # ==========================================
+
+    txt_path = RESULTS_DIR / f"comparison_{timestamp}.txt"
+
+    with txt_path.open("w", encoding="utf-8") as f:
+        f.write("HYDRA MODEL EVALUATION REPORT\n")
+        f.write("=" * 70 + "\n\n")
+
+        for i, row in enumerate(rows, start=1):
+            f.write(f"TEST {i}: {row['id']}\n")
+            f.write("=" * 70 + "\n\n")
+
+            f.write("QUESTION:\n")
+            f.write(row["question"] + "\n\n")
+
+            f.write("EXPECTED REVIEW NOTES:\n")
+            f.write(row["review_notes"] + "\n\n")
+
+            f.write("ORIGINAL GEMMA RESPONSE:\n")
+            f.write("-" * 70 + "\n")
+            f.write(row["original_answer"] + "\n\n")
+
+            f.write("MODIFIED GEMMA RESPONSE (+0.20):\n")
+            f.write("-" * 70 + "\n")
+            f.write(row["modified_answer"] + "\n\n")
+
+            f.write("COMPARISON:\n")
+            f.write(f"Answers identical: {row['answers_identical']}\n")
+            f.write(f"Original truncated: {row['original_truncated']}\n")
+            f.write(f"Modified truncated: {row['modified_truncated']}\n")
+
+            f.write("\n" + "=" * 70 + "\n\n")
+
+    print("TXT:", txt_path)
+
     print("\nEvaluation collection complete.")
     print("Identical answers:", sum(row["answers_identical"] for row in rows), "/", len(rows))
     print("Original truncated:", sum(row["original_truncated"] for row in rows))
