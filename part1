@@ -1,3 +1,5 @@
+python -c "import csv; from pathlib import Path; p=Path('evaluation_results/weight_search_v2/weight_search_v2_20261119_175906.csv'); print('Exists:',p.exists()); print('Headers:',next(csv.reader(p.open(encoding='utf-8-sig'))))"
+
 # Research and Evaluate Weight Space Programming for LLM Performance Optimization
 
 **Issue Type:** Research / Spike  
