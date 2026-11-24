@@ -1,0 +1,1402 @@
+[
+  {
+    "id": "kubernetes-01",
+    "category": "Kubernetes",
+    "split": "dev",
+    "question": "Service has no endpoints; what first?",
+    "options": {
+      "A": "Increase disk",
+      "B": "Delete namespace",
+      "C": "Restart every node",
+      "D": "Check selector and pod readiness"
+    },
+    "answer": "D",
+    "evidence_case": false
+  },
+  {
+    "id": "kubernetes-02",
+    "category": "Kubernetes",
+    "split": "dev",
+    "question": "Pod reports ImagePullBackOff; what evidence first?",
+    "options": {
+      "A": "Ingress TLS certificate",
+      "B": "CPU profile",
+      "C": "etcd snapshot",
+      "D": "Pod events and image reference"
+    },
+    "answer": "D",
+    "evidence_case": false
+  },
+  {
+    "id": "kubernetes-03",
+    "category": "Kubernetes",
+    "split": "dev",
+    "question": "Deployment rollout stuck; what command helps?",
+    "options": {
+      "A": "docker prune",
+      "B": "kubectl rollout status deployment/name",
+      "C": "kubectl delete nodes --all",
+      "D": "df -i"
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "kubernetes-04",
+    "category": "Kubernetes",
+    "split": "dev",
+    "question": "Container repeatedly restarts without logs; is a memory leak proven?",
+    "options": {
+      "A": "Yes, disk failure",
+      "B": "Yes, memory leak",
+      "C": "Yes, DNS failure",
+      "D": "No, inspect previous logs and termination state"
+    },
+    "answer": "D",
+    "evidence_case": true
+  },
+  {
+    "id": "kubernetes-05",
+    "category": "Kubernetes",
+    "split": "dev",
+    "question": "Pod OOMKilled termination reason indicates what?",
+    "options": {
+      "A": "Image missing",
+      "B": "TLS expired",
+      "C": "Container was killed for an out-of-memory condition",
+      "D": "Service selector wrong"
+    },
+    "answer": "C",
+    "evidence_case": false
+  },
+  {
+    "id": "kubernetes-06",
+    "category": "Kubernetes",
+    "split": "dev",
+    "question": "Service ClusterIP is intended for what?",
+    "options": {
+      "A": "Node authentication",
+      "B": "Public IP by default",
+      "C": "Internal cluster access",
+      "D": "Persistent storage"
+    },
+    "answer": "C",
+    "evidence_case": false
+  },
+  {
+    "id": "kubernetes-07",
+    "category": "Kubernetes",
+    "split": "dev",
+    "question": "What controls pod placement on labeled nodes?",
+    "options": {
+      "A": "nodeSelector or node affinity",
+      "B": "Ingress hostname",
+      "C": "ConfigMap data",
+      "D": "Service port"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "kubernetes-08",
+    "category": "Kubernetes",
+    "split": "dev",
+    "question": "Readiness probe fails; usual effect?",
+    "options": {
+      "A": "Pod excluded from ready service endpoints",
+      "B": "Image rebuilt",
+      "C": "Node deleted",
+      "D": "PVC erased"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "kubernetes-09",
+    "category": "Kubernetes",
+    "split": "dev",
+    "question": "What does a StatefulSet provide?",
+    "options": {
+      "A": "Unlimited storage",
+      "B": "Stable pod identities",
+      "C": "Automatic database backups",
+      "D": "Public DNS always"
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "kubernetes-10",
+    "category": "Kubernetes",
+    "split": "dev",
+    "question": "PVC Pending; first useful evidence?",
+    "options": {
+      "A": "PVC events and StorageClass",
+      "B": "Browser cookies",
+      "C": "Container stdout only",
+      "D": "Git branch"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "kubernetes-11",
+    "category": "Kubernetes",
+    "split": "dev",
+    "question": "What limits namespace aggregate resource requests?",
+    "options": {
+      "A": "Secret",
+      "B": "ResourceQuota",
+      "C": "ServiceAccount token",
+      "D": "Ingress"
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "kubernetes-12",
+    "category": "Kubernetes",
+    "split": "dev",
+    "question": "Pod Pending with no events supplied; what is known?",
+    "options": {
+      "A": "Scheduling or startup not complete; cause unknown",
+      "B": "CPU shortage confirmed",
+      "C": "Taint confirmed",
+      "D": "PVC failure confirmed"
+    },
+    "answer": "A",
+    "evidence_case": true
+  },
+  {
+    "id": "kubernetes-13",
+    "category": "Kubernetes",
+    "split": "test",
+    "question": "What retrieves logs of previous terminated container instance?",
+    "options": {
+      "A": "kubectl get nodes",
+      "B": "kubectl config view",
+      "C": "kubectl top node",
+      "D": "kubectl logs pod/name --previous"
+    },
+    "answer": "D",
+    "evidence_case": false
+  },
+  {
+    "id": "kubernetes-14",
+    "category": "Kubernetes",
+    "split": "test",
+    "question": "NetworkPolicy ingress rules require what for enforcement?",
+    "options": {
+      "A": "Docker Hub account",
+      "B": "Helm chart",
+      "C": "Supporting network plugin",
+      "D": "Public load balancer"
+    },
+    "answer": "C",
+    "evidence_case": false
+  },
+  {
+    "id": "kubernetes-15",
+    "category": "Kubernetes",
+    "split": "test",
+    "question": "Deployment replicas differ from ready replicas; cause known?",
+    "options": {
+      "A": "No, inspect pod conditions and events",
+      "B": "Definitely bad image",
+      "C": "Definitely DNS",
+      "D": "Definitely OOM"
+    },
+    "answer": "A",
+    "evidence_case": true
+  },
+  {
+    "id": "kubernetes-16",
+    "category": "Kubernetes",
+    "split": "test",
+    "question": "Which object supplies non-secret configuration?",
+    "options": {
+      "A": "ConfigMap",
+      "B": "Node",
+      "C": "ReplicaSet",
+      "D": "PersistentVolume"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "kubernetes-17",
+    "category": "Kubernetes",
+    "split": "test",
+    "question": "What does a toleration do?",
+    "options": {
+      "A": "Removes taint globally",
+      "B": "Allows scheduling despite matching taint, not guarantees it",
+      "C": "Forces placement on that node",
+      "D": "Increases CPU"
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "kubernetes-18",
+    "category": "Kubernetes",
+    "split": "test",
+    "question": "Which probe can trigger container restart after repeated failure?",
+    "options": {
+      "A": "Readiness",
+      "B": "Liveness",
+      "C": "Ingress path",
+      "D": "Service selector"
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "kubernetes-19",
+    "category": "Kubernetes",
+    "split": "test",
+    "question": "Node NotReady alone proves what root cause?",
+    "options": {
+      "A": "Network cable failure",
+      "B": "None; inspect node conditions and kubelet",
+      "C": "Expired certificate",
+      "D": "Disk failure"
+    },
+    "answer": "B",
+    "evidence_case": true
+  },
+  {
+    "id": "kubernetes-20",
+    "category": "Kubernetes",
+    "split": "test",
+    "question": "How to inspect a service's selected endpoints?",
+    "options": {
+      "A": "kubectl get namespaces",
+      "B": "kubectl get secrets",
+      "C": "kubectl version",
+      "D": "kubectl get endpointslices -l kubernetes.io/service-name=NAME"
+    },
+    "answer": "D",
+    "evidence_case": false
+  },
+  {
+    "id": "docker-01",
+    "category": "Docker",
+    "split": "dev",
+    "question": "Container exits 137; what is justified?",
+    "options": {
+      "A": "OOM confirmed",
+      "B": "Likely SIGKILL; OOM not proven",
+      "C": "DNS confirmed",
+      "D": "Image corrupt confirmed"
+    },
+    "answer": "B",
+    "evidence_case": true
+  },
+  {
+    "id": "docker-02",
+    "category": "Docker",
+    "split": "dev",
+    "question": "Which command shows stopped containers too?",
+    "options": {
+      "A": "docker volume ls",
+      "B": "docker images",
+      "C": "docker info",
+      "D": "docker ps -a"
+    },
+    "answer": "D",
+    "evidence_case": false
+  },
+  {
+    "id": "docker-03",
+    "category": "Docker",
+    "split": "dev",
+    "question": "How to persist data beyond container removal?",
+    "options": {
+      "A": "Container writable layer only",
+      "B": "Named volume",
+      "C": "Container name",
+      "D": "Image tag"
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "docker-04",
+    "category": "Docker",
+    "split": "dev",
+    "question": "What does EXPOSE alone do?",
+    "options": {
+      "A": "Opens firewall globally",
+      "B": "Publishes port to host",
+      "C": "Starts server",
+      "D": "Documents intended port"
+    },
+    "answer": "D",
+    "evidence_case": true
+  },
+  {
+    "id": "docker-05",
+    "category": "Docker",
+    "split": "dev",
+    "question": "Which flag publishes host port 8080 to container 80?",
+    "options": {
+      "A": " --name 8080:80",
+      "B": " --network 8080:80",
+      "C": " -p 8080:80",
+      "D": " -v 8080:80"
+    },
+    "answer": "C",
+    "evidence_case": false
+  },
+  {
+    "id": "docker-06",
+    "category": "Docker",
+    "split": "dev",
+    "question": "Pull denied with no further evidence; cause?",
+    "options": {
+      "A": "Unknown; check name and access",
+      "B": "Registry definitely down",
+      "C": "Password definitely wrong",
+      "D": "Disk definitely full"
+    },
+    "answer": "A",
+    "evidence_case": true
+  },
+  {
+    "id": "docker-07",
+    "category": "Docker",
+    "split": "dev",
+    "question": "Which command shows container stdout/stderr logs?",
+    "options": {
+      "A": "docker logs NAME",
+      "B": "docker tag NAME",
+      "C": "docker network ls",
+      "D": "docker history NAME"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "docker-08",
+    "category": "Docker",
+    "split": "dev",
+    "question": "What does a multi-stage build help with?",
+    "options": {
+      "A": "Automatically publish image",
+      "B": "Exclude build-only artifacts from final image",
+      "C": "Eliminate runtime memory",
+      "D": "Guarantee zero vulnerabilities"
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "docker-09",
+    "category": "Docker",
+    "split": "dev",
+    "question": "What does docker inspect provide?",
+    "options": {
+      "A": "Cloud billing",
+      "B": "Source code repository",
+      "C": "Only CPU benchmark",
+      "D": "Detailed object configuration and state"
+    },
+    "answer": "D",
+    "evidence_case": false
+  },
+  {
+    "id": "docker-10",
+    "category": "Docker",
+    "split": "dev",
+    "question": "Container exit 1 without logs proves what?",
+    "options": {
+      "A": "Database down",
+      "B": "Memory exhaustion",
+      "C": "Failure status, not specific cause",
+      "D": "Bad credentials"
+    },
+    "answer": "C",
+    "evidence_case": true
+  },
+  {
+    "id": "docker-11",
+    "category": "Docker",
+    "split": "dev",
+    "question": "What is a bind mount?",
+    "options": {
+      "A": "Host path mounted into container",
+      "B": "Network alias",
+      "C": "Registry token",
+      "D": "New image layer"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "docker-12",
+    "category": "Docker",
+    "split": "dev",
+    "question": "What does --rm do for docker run?",
+    "options": {
+      "A": "Stops daemon",
+      "B": "Removes container on exit",
+      "C": "Deletes image immediately",
+      "D": "Deletes all volumes"
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "docker-13",
+    "category": "Docker",
+    "split": "test",
+    "question": "How to pin image content rather than mutable tag?",
+    "options": {
+      "A": "Use latest",
+      "B": "Use EXPOSE",
+      "C": "Use container name",
+      "D": "Use image digest"
+    },
+    "answer": "D",
+    "evidence_case": false
+  },
+  {
+    "id": "docker-14",
+    "category": "Docker",
+    "split": "test",
+    "question": "What does docker stats display?",
+    "options": {
+      "A": "Git commits",
+      "B": "Live container resource usage",
+      "C": "Build history",
+      "D": "Registry passwords"
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "docker-15",
+    "category": "Docker",
+    "split": "test",
+    "question": "Container cannot reach database; no logs; root cause?",
+    "options": {
+      "A": "Database crash confirmed",
+      "B": "Password confirmed",
+      "C": "Firewall confirmed",
+      "D": "Unknown; check DNS, network and credentials"
+    },
+    "answer": "D",
+    "evidence_case": true
+  },
+  {
+    "id": "docker-16",
+    "category": "Docker",
+    "split": "test",
+    "question": "Which command builds an image from Dockerfile in current directory?",
+    "options": {
+      "A": "docker run .",
+      "B": "docker build .",
+      "C": "docker pull .",
+      "D": "docker exec ."
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "docker-17",
+    "category": "Docker",
+    "split": "test",
+    "question": "What is COPY used for in Dockerfile?",
+    "options": {
+      "A": "Run container",
+      "B": "Copy build-context files into image",
+      "C": "Publish port",
+      "D": "Create registry"
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "docker-18",
+    "category": "Docker",
+    "split": "test",
+    "question": "What does health status unhealthy alone establish?",
+    "options": {
+      "A": "Health check failed; cause needs inspection",
+      "B": "Host disk failed",
+      "C": "Database deleted",
+      "D": "Image malicious"
+    },
+    "answer": "A",
+    "evidence_case": true
+  },
+  {
+    "id": "docker-19",
+    "category": "Docker",
+    "split": "test",
+    "question": "What does docker stop normally attempt first?",
+    "options": {
+      "A": "Immediate image deletion",
+      "B": "Host reboot",
+      "C": "Graceful termination signal",
+      "D": "Volume formatting"
+    },
+    "answer": "C",
+    "evidence_case": false
+  },
+  {
+    "id": "docker-20",
+    "category": "Docker",
+    "split": "test",
+    "question": "Which command lists Docker networks?",
+    "options": {
+      "A": "docker network ls",
+      "B": "docker ps -a",
+      "C": "docker history",
+      "D": "docker logs"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "jenkins-01",
+    "category": "Jenkins",
+    "split": "dev",
+    "question": "Maven artifact not found; first conclusion?",
+    "options": {
+      "A": "Jenkins corrupt",
+      "B": "Compiler bug proven",
+      "C": "Dependency resolution failed; investigate repositories",
+      "D": "OOM confirmed"
+    },
+    "answer": "C",
+    "evidence_case": true
+  },
+  {
+    "id": "jenkins-02",
+    "category": "Jenkins",
+    "split": "dev",
+    "question": "What is Jenkinsfile typically used for?",
+    "options": {
+      "A": "Pipeline definition as code",
+      "B": "Linux kernel configuration",
+      "C": "AWS billing",
+      "D": "Docker image binary"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "jenkins-03",
+    "category": "Jenkins",
+    "split": "dev",
+    "question": "Agent offline with no logs; root cause?",
+    "options": {
+      "A": "SSH key expired confirmed",
+      "B": "Unknown; inspect agent connection and logs",
+      "C": "Disk full confirmed",
+      "D": "Controller crash confirmed"
+    },
+    "answer": "B",
+    "evidence_case": true
+  },
+  {
+    "id": "jenkins-04",
+    "category": "Jenkins",
+    "split": "dev",
+    "question": "What stores files for later retrieval from build?",
+    "options": {
+      "A": "sleep",
+      "B": "echo",
+      "C": "archiveArtifacts",
+      "D": "checkout"
+    },
+    "answer": "C",
+    "evidence_case": false
+  },
+  {
+    "id": "jenkins-05",
+    "category": "Jenkins",
+    "split": "dev",
+    "question": "How should pipeline secrets be supplied?",
+    "options": {
+      "A": "Public build log",
+      "B": "Plaintext in repository",
+      "C": "Hardcoded Dockerfile",
+      "D": "Jenkins credentials binding"
+    },
+    "answer": "D",
+    "evidence_case": false
+  },
+  {
+    "id": "jenkins-06",
+    "category": "Jenkins",
+    "split": "dev",
+    "question": "What does a nonzero shell exit normally do in sh step?",
+    "options": {
+      "A": "Deletes workspace",
+      "B": "Always succeeds",
+      "C": "Restarts controller",
+      "D": "Fails step unless handled"
+    },
+    "answer": "D",
+    "evidence_case": false
+  },
+  {
+    "id": "jenkins-07",
+    "category": "Jenkins",
+    "split": "dev",
+    "question": "What is a Jenkins agent?",
+    "options": {
+      "A": "Git commit",
+      "B": "Artifact repository",
+      "C": "DNS server",
+      "D": "Execution worker for jobs"
+    },
+    "answer": "D",
+    "evidence_case": false
+  },
+  {
+    "id": "jenkins-08",
+    "category": "Jenkins",
+    "split": "dev",
+    "question": "What does a webhook commonly trigger?",
+    "options": {
+      "A": "Credential rotation always",
+      "B": "Build on repository event",
+      "C": "Disk formatting",
+      "D": "Kernel upgrade"
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "jenkins-09",
+    "category": "Jenkins",
+    "split": "dev",
+    "question": "Tests fail without report; what can be concluded?",
+    "options": {
+      "A": "Tests reported failure; inspect report/logs",
+      "B": "Compiler corrupt",
+      "C": "Application database down",
+      "D": "Network down"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "jenkins-10",
+    "category": "Jenkins",
+    "split": "dev",
+    "question": "What does a timeout step do?",
+    "options": {
+      "A": "Bounds execution duration",
+      "B": "Guarantees successful build",
+      "C": "Increases memory",
+      "D": "Encrypts artifacts"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "jenkins-11",
+    "category": "Jenkins",
+    "split": "dev",
+    "question": "What does stash/unstash support?",
+    "options": {
+      "A": "Transfer files between stages in same run",
+      "B": "Credential storage",
+      "C": "Permanent backup guarantee",
+      "D": "DNS configuration"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "jenkins-12",
+    "category": "Jenkins",
+    "split": "dev",
+    "question": "What should be checked when checkout fails with permission denied?",
+    "options": {
+      "A": "Disable TLS globally",
+      "B": "Repository URL and credential permissions",
+      "C": "Delete all jobs",
+      "D": "Increase heap blindly"
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "jenkins-13",
+    "category": "Jenkins",
+    "split": "test",
+    "question": "Build queue growing; root cause known from queue size alone?",
+    "options": {
+      "A": "CPU failure proven",
+      "B": "No; inspect executor availability and queue reasons",
+      "C": "Plugin bug proven",
+      "D": "Git outage proven"
+    },
+    "answer": "B",
+    "evidence_case": true
+  },
+  {
+    "id": "jenkins-14",
+    "category": "Jenkins",
+    "split": "test",
+    "question": "What does post always in declarative pipeline mean?",
+    "options": {
+      "A": "Run post actions regardless of completion status",
+      "B": "Start new controller",
+      "C": "Skip all cleanup",
+      "D": "Run only on success"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "jenkins-15",
+    "category": "Jenkins",
+    "split": "test",
+    "question": "What is a workspace?",
+    "options": {
+      "A": "Public registry",
+      "B": "Global password store",
+      "C": "Network subnet",
+      "D": "Directory where job files are processed"
+    },
+    "answer": "D",
+    "evidence_case": false
+  },
+  {
+    "id": "jenkins-16",
+    "category": "Jenkins",
+    "split": "test",
+    "question": "What does retry step do?",
+    "options": {
+      "A": "Delete failed artifacts always",
+      "B": "Guarantee correctness",
+      "C": "Reattempt enclosed work on eligible failure",
+      "D": "Increase CPU"
+    },
+    "answer": "C",
+    "evidence_case": false
+  },
+  {
+    "id": "jenkins-17",
+    "category": "Jenkins",
+    "split": "test",
+    "question": "Artifact upload times out; what is established?",
+    "options": {
+      "A": "Repository disk full",
+      "B": "Credentials expired",
+      "C": "DNS broken",
+      "D": "Upload did not complete within timeout; cause unknown"
+    },
+    "answer": "D",
+    "evidence_case": true
+  },
+  {
+    "id": "jenkins-18",
+    "category": "Jenkins",
+    "split": "test",
+    "question": "What is a pipeline stage?",
+    "options": {
+      "A": "Git remote",
+      "B": "Physical CPU",
+      "C": "Logical grouping of steps",
+      "D": "Credential type"
+    },
+    "answer": "C",
+    "evidence_case": false
+  },
+  {
+    "id": "jenkins-19",
+    "category": "Jenkins",
+    "split": "test",
+    "question": "How to avoid exposing secrets in shell output?",
+    "options": {
+      "A": "Avoid echoing secrets and use credentials binding",
+      "B": "Commit secret",
+      "C": "Disable masking",
+      "D": "Print environment publicly"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "jenkins-20",
+    "category": "Jenkins",
+    "split": "test",
+    "question": "What does junit step commonly publish?",
+    "options": {
+      "A": "SSH keys",
+      "B": "Test results from XML reports",
+      "C": "Kernel logs",
+      "D": "Container image"
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "linux-01",
+    "category": "Linux",
+    "split": "dev",
+    "question": "No space left on device; disk blocks definitely exhausted?",
+    "options": {
+      "A": "Yes always",
+      "B": "RAM failure",
+      "C": "DNS failure",
+      "D": "No; check blocks, inodes and quotas"
+    },
+    "answer": "D",
+    "evidence_case": true
+  },
+  {
+    "id": "linux-02",
+    "category": "Linux",
+    "split": "dev",
+    "question": "Which command checks inode usage?",
+    "options": {
+      "A": "free -m",
+      "B": "ip addr",
+      "C": "df -i",
+      "D": "uname -a"
+    },
+    "answer": "C",
+    "evidence_case": false
+  },
+  {
+    "id": "linux-03",
+    "category": "Linux",
+    "split": "dev",
+    "question": "Which command lists listening TCP sockets numerically?",
+    "options": {
+      "A": "ss -ltn",
+      "B": "whoami",
+      "C": "df -h",
+      "D": "lsblk"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "linux-04",
+    "category": "Linux",
+    "split": "dev",
+    "question": "Process killed by SIGKILL; OOM proven?",
+    "options": {
+      "A": "Yes always",
+      "B": "No; inspect kernel and cgroup evidence",
+      "C": "Disk full proven",
+      "D": "Network down proven"
+    },
+    "answer": "B",
+    "evidence_case": true
+  },
+  {
+    "id": "linux-05",
+    "category": "Linux",
+    "split": "dev",
+    "question": "What does chmod 600 grant owner?",
+    "options": {
+      "A": "Read and write only",
+      "B": "Execute only",
+      "C": "All permissions to group",
+      "D": "Read to everyone"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "linux-06",
+    "category": "Linux",
+    "split": "dev",
+    "question": "Which command shows filesystem block usage?",
+    "options": {
+      "A": "ps aux",
+      "B": "id",
+      "C": "ip route",
+      "D": "df -h"
+    },
+    "answer": "D",
+    "evidence_case": false
+  },
+  {
+    "id": "linux-07",
+    "category": "Linux",
+    "split": "dev",
+    "question": "What does systemctl status SERVICE show?",
+    "options": {
+      "A": "Unit state and recent status information",
+      "B": "Disk partitions only",
+      "C": "Git history",
+      "D": "All network packets"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "linux-08",
+    "category": "Linux",
+    "split": "dev",
+    "question": "What does exit code 0 conventionally mean?",
+    "options": {
+      "A": "SIGKILL",
+      "B": "Success",
+      "C": "Permission denied always",
+      "D": "OOM"
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "linux-09",
+    "category": "Linux",
+    "split": "dev",
+    "question": "High load average alone proves CPU saturation?",
+    "options": {
+      "A": "Memory leak proven",
+      "B": "Disk full proven",
+      "C": "Yes always",
+      "D": "No; runnable and uninterruptible tasks contribute"
+    },
+    "answer": "D",
+    "evidence_case": true
+  },
+  {
+    "id": "linux-10",
+    "category": "Linux",
+    "split": "dev",
+    "question": "Which command shows memory usage summary?",
+    "options": {
+      "A": "hostname",
+      "B": "pwd",
+      "C": "ls -l",
+      "D": "free -h"
+    },
+    "answer": "D",
+    "evidence_case": false
+  },
+  {
+    "id": "linux-11",
+    "category": "Linux",
+    "split": "dev",
+    "question": "What does journalctl -u SERVICE filter?",
+    "options": {
+      "A": "Journal entries for unit",
+      "B": "Filesystem blocks",
+      "C": "All files by owner",
+      "D": "TCP ports"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "linux-12",
+    "category": "Linux",
+    "split": "dev",
+    "question": "What does a symbolic link contain?",
+    "options": {
+      "A": "Reference to another path",
+      "B": "Network route",
+      "C": "Process ID",
+      "D": "Copy of all target data"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "linux-13",
+    "category": "Linux",
+    "split": "test",
+    "question": "Permission denied opening file; cause known?",
+    "options": {
+      "A": "No; inspect permissions, identity and security controls",
+      "B": "Owner definitely wrong",
+      "C": "SELinux definitely responsible",
+      "D": "Disk corrupt"
+    },
+    "answer": "A",
+    "evidence_case": true
+  },
+  {
+    "id": "linux-14",
+    "category": "Linux",
+    "split": "test",
+    "question": "Which command shows current process identity?",
+    "options": {
+      "A": "id",
+      "B": "df",
+      "C": "mount",
+      "D": "uptime"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "linux-15",
+    "category": "Linux",
+    "split": "test",
+    "question": "What does SIGTERM usually request?",
+    "options": {
+      "A": "Graceful process termination",
+      "B": "Disk sync only",
+      "C": "Uncatchable immediate kill",
+      "D": "Network restart"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "linux-16",
+    "category": "Linux",
+    "split": "test",
+    "question": "Which command shows routing table?",
+    "options": {
+      "A": "ip route",
+      "B": "free",
+      "C": "chmod",
+      "D": "du"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "linux-17",
+    "category": "Linux",
+    "split": "test",
+    "question": "Service port unreachable; root cause known?",
+    "options": {
+      "A": "No; check listener, routing and filtering",
+      "B": "Service crashed confirmed",
+      "C": "Firewall confirmed",
+      "D": "DNS confirmed"
+    },
+    "answer": "A",
+    "evidence_case": true
+  },
+  {
+    "id": "linux-18",
+    "category": "Linux",
+    "split": "test",
+    "question": "What does du measure?",
+    "options": {
+      "A": "Network latency",
+      "B": "CPU frequency",
+      "C": "File/directory disk usage",
+      "D": "Process count"
+    },
+    "answer": "C",
+    "evidence_case": false
+  },
+  {
+    "id": "linux-19",
+    "category": "Linux",
+    "split": "test",
+    "question": "What does /proc provide?",
+    "options": {
+      "A": "Package repository",
+      "B": "Remote object storage",
+      "C": "Kernel and process information",
+      "D": "Persistent backups"
+    },
+    "answer": "C",
+    "evidence_case": false
+  },
+  {
+    "id": "linux-20",
+    "category": "Linux",
+    "split": "test",
+    "question": "Which command shows block devices?",
+    "options": {
+      "A": "env",
+      "B": "ss",
+      "C": "who",
+      "D": "lsblk"
+    },
+    "answer": "D",
+    "evidence_case": false
+  },
+  {
+    "id": "aws-01",
+    "category": "AWS",
+    "split": "dev",
+    "question": "AccessDenied alone proves identity policy missing?",
+    "options": {
+      "A": "Disk full",
+      "B": "Yes always",
+      "C": "Region outage",
+      "D": "No; multiple policy types can deny"
+    },
+    "answer": "D",
+    "evidence_case": true
+  },
+  {
+    "id": "aws-02",
+    "category": "AWS",
+    "split": "dev",
+    "question": "What does S3 store?",
+    "options": {
+      "A": "VPC routes",
+      "B": "Running processes",
+      "C": "Objects in buckets",
+      "D": "Relational rows only"
+    },
+    "answer": "C",
+    "evidence_case": false
+  },
+  {
+    "id": "aws-03",
+    "category": "AWS",
+    "split": "dev",
+    "question": "What does EC2 security group control?",
+    "options": {
+      "A": "CPU clock",
+      "B": "Stateful network traffic rules",
+      "C": "IAM password policy",
+      "D": "S3 object versions"
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "aws-04",
+    "category": "AWS",
+    "split": "dev",
+    "question": "What does CloudWatch Logs collect?",
+    "options": {
+      "A": "IAM users only",
+      "B": "DNS zones only",
+      "C": "Log events",
+      "D": "Physical disks"
+    },
+    "answer": "C",
+    "evidence_case": false
+  },
+  {
+    "id": "aws-05",
+    "category": "AWS",
+    "split": "dev",
+    "question": "EC2 unreachable via SSH; root cause known?",
+    "options": {
+      "A": "Security group confirmed",
+      "B": "Instance dead confirmed",
+      "C": "Key wrong confirmed",
+      "D": "No; inspect routing, rules and instance state"
+    },
+    "answer": "D",
+    "evidence_case": true
+  },
+  {
+    "id": "aws-06",
+    "category": "AWS",
+    "split": "dev",
+    "question": "What is an IAM role used for?",
+    "options": {
+      "A": "Subnet route",
+      "B": "Assumable identity with permissions",
+      "C": "DNS record",
+      "D": "Persistent block disk"
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "aws-07",
+    "category": "AWS",
+    "split": "dev",
+    "question": "What does EBS provide?",
+    "options": {
+      "A": "Global DNS",
+      "B": "Object storage API",
+      "C": "Block storage",
+      "D": "Queue service"
+    },
+    "answer": "C",
+    "evidence_case": false
+  },
+  {
+    "id": "aws-08",
+    "category": "AWS",
+    "split": "dev",
+    "question": "What does an SQS queue provide?",
+    "options": {
+      "A": "Block storage",
+      "B": "IAM authentication only",
+      "C": "SSH access",
+      "D": "Asynchronous message buffering"
+    },
+    "answer": "D",
+    "evidence_case": false
+  },
+  {
+    "id": "aws-09",
+    "category": "AWS",
+    "split": "dev",
+    "question": "Lambda timeout alone proves what?",
+    "options": {
+      "A": "Database down confirmed",
+      "B": "Execution exceeded configured time; cause unknown",
+      "C": "IAM denied confirmed",
+      "D": "Memory leak confirmed"
+    },
+    "answer": "B",
+    "evidence_case": true
+  },
+  {
+    "id": "aws-10",
+    "category": "AWS",
+    "split": "dev",
+    "question": "What does a VPC subnet belong to?",
+    "options": {
+      "A": "All regions",
+      "B": "No VPC",
+      "C": "One availability zone",
+      "D": "All accounts"
+    },
+    "answer": "C",
+    "evidence_case": false
+  },
+  {
+    "id": "aws-11",
+    "category": "AWS",
+    "split": "dev",
+    "question": "What does CloudTrail record?",
+    "options": {
+      "A": "Every CPU instruction",
+      "B": "Every application stdout line automatically",
+      "C": "All packet payloads",
+      "D": "AWS API activity and related events"
+    },
+    "answer": "D",
+    "evidence_case": false
+  },
+  {
+    "id": "aws-12",
+    "category": "AWS",
+    "split": "dev",
+    "question": "What does an internet gateway enable with suitable routing?",
+    "options": {
+      "A": "S3 encryption",
+      "B": "VPC internet connectivity",
+      "C": "Automatic IAM admin",
+      "D": "Database backups"
+    },
+    "answer": "B",
+    "evidence_case": false
+  },
+  {
+    "id": "aws-13",
+    "category": "AWS",
+    "split": "test",
+    "question": "S3 403 with no other evidence; cause?",
+    "options": {
+      "A": "Password wrong confirmed",
+      "B": "Region outage confirmed",
+      "C": "Unknown; inspect policies and request context",
+      "D": "Bucket absent confirmed"
+    },
+    "answer": "C",
+    "evidence_case": true
+  },
+  {
+    "id": "aws-14",
+    "category": "AWS",
+    "split": "test",
+    "question": "What does an ALB primarily route?",
+    "options": {
+      "A": "IAM policies",
+      "B": "Git commits",
+      "C": "HTTP/HTTPS application traffic",
+      "D": "Block device writes"
+    },
+    "answer": "C",
+    "evidence_case": false
+  },
+  {
+    "id": "aws-15",
+    "category": "AWS",
+    "split": "test",
+    "question": "What does an SCP constrain?",
+    "options": {
+      "A": "VPC CIDR only",
+      "B": "S3 object size",
+      "C": "EC2 CPU speed",
+      "D": "Maximum available permissions for affected accounts"
+    },
+    "answer": "D",
+    "evidence_case": false
+  },
+  {
+    "id": "aws-16",
+    "category": "AWS",
+    "split": "test",
+    "question": "What does RDS provide?",
+    "options": {
+      "A": "Container registry",
+      "B": "Message queue",
+      "C": "Managed relational database service",
+      "D": "DNS resolver only"
+    },
+    "answer": "C",
+    "evidence_case": false
+  },
+  {
+    "id": "aws-17",
+    "category": "AWS",
+    "split": "test",
+    "question": "CloudWatch alarm in ALARM state proves what?",
+    "options": {
+      "A": "Configured alarm condition met; root cause not necessarily known",
+      "B": "Server crash confirmed",
+      "C": "Network outage confirmed",
+      "D": "Memory leak confirmed"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "aws-18",
+    "category": "AWS",
+    "split": "test",
+    "question": "What does an S3 versioning feature retain?",
+    "options": {
+      "A": "Object versions",
+      "B": "EC2 snapshots automatically",
+      "C": "IAM role history",
+      "D": "VPC routes"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "aws-19",
+    "category": "AWS",
+    "split": "test",
+    "question": "What does a NAT gateway commonly enable for private subnets?",
+    "options": {
+      "A": "Outbound internet connectivity with appropriate routing",
+      "B": "IAM role assumption",
+      "C": "S3 bucket creation",
+      "D": "Unsolicited inbound SSH"
+    },
+    "answer": "A",
+    "evidence_case": false
+  },
+  {
+    "id": "aws-20",
+    "category": "AWS",
+    "split": "test",
+    "question": "What does AWS STS issue?",
+    "options": {
+      "A": "Temporary security credentials",
+      "B": "Permanent disk volumes",
+      "C": "Container images",
+      "D": "DNS certificates only"
+    },
+    "answer": "A",
+    "evidence_case": false
+  }
+]
