@@ -1,1 +1,7 @@
-# Notes
+# Hydra Experiment 11
+Place this directory inside Weight Space Programming. Use the existing MLX virtual environment. Run 11A then 11B. No reference repository required. Review the 12 pilot answers manually; they are not a final benchmark.
+11C requires a locally implemented adapter exposing collect(root). Inspect the installed Gemma implementation, verify instrumented/uninstrumented output equivalence, collect matched teacher-forced productive/failed vectors at the same layer and token position, save separate train and validation NPZ files with productive and failed arrays (examples x hidden dimension), and record case IDs and metadata. Keep splits disjoint. Use one model and small sequences. Do not upload local data. No guessed hooks are included.
+11D usage: python experiment11/11D_find_direction.py train.npz validation.npz direction.npy
+11E and 11F run synthetic tests only. Integrate 11E at a verified activation site and compare baseline, targeted and norm-matched controls before any weight edit. 11F is dense reference math, not a packed 4-bit patcher. Quantization-aware group editing remains pending. Never overwrite the original checkpoint.
+11G usage: python experiment11/11G_validation.py reviewed_test.csv
+CSV columns: case_id,baseline_correct,modified_correct,baseline_unsupported,modified_unsupported. Use binary manual labels and a fresh independent test set. Unsupported means at least one unsupported claim. No automatic semantic judge is included.
