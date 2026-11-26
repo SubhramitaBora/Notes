@@ -1,0 +1,722 @@
+[
+  {
+    "id": "KUB-01",
+    "domain": "Kubernetes",
+    "split": "dev",
+    "question": "Pod lastState terminated reason OOMKilled, exit 137; node reports no MemoryPressure. What is established and how distinguish container limit from node OOM?",
+    "criteria": [
+      "OOM termination is reported",
+      "node condition does not exclude node OOM",
+      "inspect cgroup memory events, limits and kernel logs"
+    ],
+    "unsupported_example": "Container limit definitely caused it"
+  },
+  {
+    "id": "KUB-02",
+    "domain": "Kubernetes",
+    "split": "dev",
+    "question": "Service has endpoints but requests time out from another namespace; local pod curl works. Diagnose.",
+    "criteria": [
+      "Endpoints alone do not establish reachability",
+      "check NetworkPolicy and service targetPort",
+      "test from affected namespace"
+    ],
+    "unsupported_example": "NetworkPolicy definitely blocks traffic"
+  },
+  {
+    "id": "KUB-03",
+    "domain": "Kubernetes",
+    "split": "dev",
+    "question": "Deployment rollout stalls with new pods Ready but old pods remain; maxSurge=1 and maxUnavailable=0. Explain.",
+    "criteria": [
+      "Readiness alone does not imply availability",
+      "check minReadySeconds and deployment conditions",
+      "inspect replica counts and termination"
+    ],
+    "unsupported_example": "Controller is broken"
+  },
+  {
+    "id": "KUB-04",
+    "domain": "Kubernetes",
+    "split": "dev",
+    "question": "Pod Pending with event 0/5 nodes available: insufficient cpu; dashboard CPU utilization 10%. Explain.",
+    "criteria": [
+      "Scheduler uses requested resources not current utilization",
+      "inspect allocatable and existing requests",
+      "check other scheduling constraints"
+    ],
+    "unsupported_example": "CPU hardware is exhausted"
+  },
+  {
+    "id": "KUB-05",
+    "domain": "Kubernetes",
+    "split": "dev",
+    "question": "Ingress returns 502 while direct service returns 200. What can be concluded?",
+    "criteria": [
+      "Backend works for tested path",
+      "inspect ingress upstream protocol and port",
+      "compare controller logs and request path"
+    ],
+    "unsupported_example": "Application is down"
+  },
+  {
+    "id": "KUB-06",
+    "domain": "Kubernetes",
+    "split": "dev",
+    "question": "Pod restarts after liveness probe failures while readiness was healthy. Explain.",
+    "criteria": [
+      "Liveness failures can trigger restarts",
+      "readiness serves different purpose",
+      "correlate events and probe timing with app logs"
+    ],
+    "unsupported_example": "Application necessarily crashed"
+  },
+  {
+    "id": "KUB-07",
+    "domain": "Kubernetes",
+    "split": "dev",
+    "question": "PVC Pending with WaitForFirstConsumer and no scheduled pod. Diagnose.",
+    "criteria": [
+      "Binding may intentionally wait for consumer scheduling",
+      "inspect pod scheduling events and storage class",
+      "check topology and provisioner"
+    ],
+    "unsupported_example": "Storage backend is broken"
+  },
+  {
+    "id": "KUB-08",
+    "domain": "Kubernetes",
+    "split": "dev",
+    "question": "DNS lookup returns NXDOMAIN for short service name from another namespace. Diagnose.",
+    "criteria": [
+      "Short name uses search domains",
+      "test service.namespace.svc name",
+      "inspect service existence and DNS config"
+    ],
+    "unsupported_example": "CoreDNS is down"
+  },
+  {
+    "id": "KUB-09",
+    "domain": "Kubernetes",
+    "split": "test",
+    "question": "Pod evicted with ephemeral-storage event despite low CPU and RAM. Explain.",
+    "criteria": [
+      "Eviction reason concerns local storage",
+      "inspect node disk pressure and pod usage",
+      "distinguish eviction from container OOM"
+    ],
+    "unsupported_example": "RAM shortage caused eviction"
+  },
+  {
+    "id": "KUB-10",
+    "domain": "Kubernetes",
+    "split": "test",
+    "question": "HPA reports unknown CPU utilization; pods have CPU limits but no requests. Explain.",
+    "criteria": [
+      "CPU utilization target needs requests",
+      "inspect metrics API and HPA conditions",
+      "configure appropriate requests if missing"
+    ],
+    "unsupported_example": "Metrics server definitely down"
+  },
+  {
+    "id": "KUB-11",
+    "domain": "Kubernetes",
+    "split": "test",
+    "question": "Service traffic reaches only one pod; three endpoints Ready; client uses persistent HTTP connection. Explain.",
+    "criteria": [
+      "Connection reuse can concentrate traffic",
+      "compare new connections and endpoint distribution",
+      "inspect affinity and proxy mode"
+    ],
+    "unsupported_example": "Load balancer is broken"
+  },
+  {
+    "id": "KUB-12",
+    "domain": "Kubernetes",
+    "split": "test",
+    "question": "StatefulSet replacement pod cannot attach volume: Multi-Attach error. Explain.",
+    "criteria": [
+      "Volume attachment conflict is reported",
+      "inspect previous node and VolumeAttachment",
+      "avoid force detach until safe"
+    ],
+    "unsupported_example": "Data is already corrupted"
+  },
+  {
+    "id": "DOC-01",
+    "domain": "Docker",
+    "split": "dev",
+    "question": "Container exits 137 after docker stop; OOMKilled=false. What can you infer?",
+    "criteria": [
+      "SIGKILL convention",
+      "stop timeout is plausible",
+      "inspect events and stop timeout"
+    ],
+    "unsupported_example": "OOM confirmed"
+  },
+  {
+    "id": "DOC-02",
+    "domain": "Docker",
+    "split": "dev",
+    "question": "Image builds locally but CI reports exec format error on startup. Diagnose.",
+    "criteria": [
+      "Architecture mismatch is plausible",
+      "inspect image platform and host architecture",
+      "check entrypoint format and shebang"
+    ],
+    "unsupported_example": "Architecture mismatch confirmed"
+  },
+  {
+    "id": "DOC-03",
+    "domain": "Docker",
+    "split": "dev",
+    "question": "Container listens on 127.0.0.1:8080 and port 8080 is published. Host connection fails. Explain.",
+    "criteria": [
+      "Loopback binding limits reachability",
+      "verify listener inside container",
+      "bind appropriate interface and retest"
+    ],
+    "unsupported_example": "Host firewall definitely blocks it"
+  },
+  {
+    "id": "DOC-04",
+    "domain": "Docker",
+    "split": "dev",
+    "question": "Docker build cache reuses dependency install after remote package changes. Explain.",
+    "criteria": [
+      "Cache key may not include remote changes",
+      "inspect build inputs and lockfile",
+      "rebuild with controlled cache invalidation"
+    ],
+    "unsupported_example": "Registry is compromised"
+  },
+  {
+    "id": "DOC-05",
+    "domain": "Docker",
+    "split": "dev",
+    "question": "Container filesystem is full but host df shows free space. Diagnose.",
+    "criteria": [
+      "Different mount or quota may apply",
+      "inspect container mounts and df -i",
+      "check storage driver limits"
+    ],
+    "unsupported_example": "Host disk is full"
+  },
+  {
+    "id": "DOC-06",
+    "domain": "Docker",
+    "split": "dev",
+    "question": "Container health status unhealthy but process remains running. Explain.",
+    "criteria": [
+      "Health check failure is distinct from process exit",
+      "inspect health logs and command",
+      "check orchestrator restart policy"
+    ],
+    "unsupported_example": "Docker always restarts unhealthy containers"
+  },
+  {
+    "id": "DOC-07",
+    "domain": "Docker",
+    "split": "dev",
+    "question": "Bind mount hides files present in image at /app. Explain.",
+    "criteria": [
+      "Mount obscures underlying image directory",
+      "inspect mount source and contents",
+      "compare unmounted image"
+    ],
+    "unsupported_example": "Image files were deleted"
+  },
+  {
+    "id": "DOC-08",
+    "domain": "Docker",
+    "split": "dev",
+    "question": "Two containers on different bridge networks cannot resolve each other's names. Diagnose.",
+    "criteria": [
+      "Name resolution is network scoped",
+      "inspect network membership",
+      "use shared network or intended routing"
+    ],
+    "unsupported_example": "External DNS is broken"
+  },
+  {
+    "id": "DOC-09",
+    "domain": "Docker",
+    "split": "test",
+    "question": "Build succeeds but runtime cannot find shared library. Multi-stage image copies only binary. Diagnose.",
+    "criteria": [
+      "Runtime dependencies may be missing",
+      "inspect binary dependencies and final image",
+      "distinguish loader path from absent file"
+    ],
+    "unsupported_example": "Compiler is broken"
+  },
+  {
+    "id": "DOC-10",
+    "domain": "Docker",
+    "split": "test",
+    "question": "Docker logs empty while application writes /var/log/app.log. Explain.",
+    "criteria": [
+      "Docker logs usually capture stdout/stderr via logging driver",
+      "inspect driver and app logging",
+      "verify file output"
+    ],
+    "unsupported_example": "Application never ran"
+  },
+  {
+    "id": "DOC-11",
+    "domain": "Docker",
+    "split": "test",
+    "question": "Container memory usage grows while RSS stable; cache grows. Explain.",
+    "criteria": [
+      "Memory accounting can include page cache",
+      "inspect cgroup memory.stat and limits",
+      "distinguish reclaimable cache from leak"
+    ],
+    "unsupported_example": "Memory leak confirmed"
+  },
+  {
+    "id": "DOC-12",
+    "domain": "Docker",
+    "split": "test",
+    "question": "Image tag unchanged but digest differs across hosts. Explain.",
+    "criteria": [
+      "Tags can be mutable",
+      "compare digests and platform manifests",
+      "pin intended digest"
+    ],
+    "unsupported_example": "One host is compromised"
+  },
+  {
+    "id": "JEN-01",
+    "domain": "Jenkins",
+    "split": "dev",
+    "question": "Pipeline shell exits 2 after command with invalid option; Jenkins marks failure. Explain.",
+    "criteria": [
+      "Exit status is command-specific",
+      "inspect stderr and exact invocation",
+      "distinguish shell syntax from tool error"
+    ],
+    "unsupported_example": "Jenkins itself failed"
+  },
+  {
+    "id": "JEN-02",
+    "domain": "Jenkins",
+    "split": "dev",
+    "question": "Build passes but deployment stage skipped with when branch main; multibranch PR job. Diagnose.",
+    "criteria": [
+      "Branch condition may not match PR context",
+      "inspect BRANCH_NAME and CHANGE_TARGET",
+      "verify intended condition"
+    ],
+    "unsupported_example": "Deployment credentials invalid"
+  },
+  {
+    "id": "JEN-03",
+    "domain": "Jenkins",
+    "split": "dev",
+    "question": "Agent disconnects during build; controller reports channel closed. Explain.",
+    "criteria": [
+      "Communication loss is established",
+      "inspect agent and controller logs and network",
+      "check resource termination evidence"
+    ],
+    "unsupported_example": "Agent OOM confirmed"
+  },
+  {
+    "id": "JEN-04",
+    "domain": "Jenkins",
+    "split": "dev",
+    "question": "Tests pass locally but fail in CI with timezone-dependent timestamps. Diagnose.",
+    "criteria": [
+      "Environment difference plausible",
+      "compare timezone and locale",
+      "reproduce with fixed clock or timezone"
+    ],
+    "unsupported_example": "Tests are inherently flaky"
+  },
+  {
+    "id": "JEN-05",
+    "domain": "Jenkins",
+    "split": "dev",
+    "question": "Pipeline credentials binding succeeds but API returns 403. Explain.",
+    "criteria": [
+      "Binding does not prove authorization",
+      "inspect identity and API policy",
+      "distinguish authentication and authorization without exposing secrets"
+    ],
+    "unsupported_example": "Token is expired"
+  },
+  {
+    "id": "JEN-06",
+    "domain": "Jenkins",
+    "split": "dev",
+    "question": "Parallel stages overwrite same workspace artifact. Diagnose.",
+    "criteria": [
+      "Shared path race plausible",
+      "inspect workspace and timestamps",
+      "isolate outputs per branch"
+    ],
+    "unsupported_example": "Jenkins scheduler corrupted files"
+  },
+  {
+    "id": "JEN-07",
+    "domain": "Jenkins",
+    "split": "dev",
+    "question": "Git checkout fails with host key verification failed. Explain.",
+    "criteria": [
+      "SSH host identity verification failed",
+      "verify trusted host key and known_hosts",
+      "do not disable verification"
+    ],
+    "unsupported_example": "Repository password is wrong"
+  },
+  {
+    "id": "JEN-08",
+    "domain": "Jenkins",
+    "split": "dev",
+    "question": "Pipeline times out waiting for input approval; agent remains allocated. Explain.",
+    "criteria": [
+      "Input wait and timeout scope matter",
+      "inspect stage agent allocation",
+      "move approval outside agent if appropriate"
+    ],
+    "unsupported_example": "Build process deadlocked"
+  },
+  {
+    "id": "JEN-09",
+    "domain": "Jenkins",
+    "split": "test",
+    "question": "Artifact upload returns 413 through reverse proxy. Diagnose.",
+    "criteria": [
+      "Request size rejection indicated",
+      "inspect proxy and backend limits",
+      "compare request size and logs"
+    ],
+    "unsupported_example": "Artifact storage is full"
+  },
+  {
+    "id": "JEN-10",
+    "domain": "Jenkins",
+    "split": "test",
+    "question": "Pipeline retries non-idempotent deployment after network timeout. What risk?",
+    "criteria": [
+      "Timeout leaves outcome uncertain",
+      "check deployment state before retry",
+      "use idempotency or reconciliation"
+    ],
+    "unsupported_example": "First deployment definitely failed"
+  },
+  {
+    "id": "JEN-11",
+    "domain": "Jenkins",
+    "split": "test",
+    "question": "JUnit reports missing but test command exit 0. Explain.",
+    "criteria": [
+      "Exit zero does not establish report generation",
+      "inspect report path and test discovery",
+      "verify publisher glob"
+    ],
+    "unsupported_example": "All tests passed"
+  },
+  {
+    "id": "JEN-12",
+    "domain": "Jenkins",
+    "split": "test",
+    "question": "Build queue says no nodes match label linux-arm64. Diagnose.",
+    "criteria": [
+      "Label eligibility is issue reported",
+      "inspect online agents and labels",
+      "check provisioning and executor availability"
+    ],
+    "unsupported_example": "Controller CPU is exhausted"
+  },
+  {
+    "id": "LIN-01",
+    "domain": "Linux",
+    "split": "dev",
+    "question": "Load average 12 on 32 CPUs; CPU idle 80%, many D-state tasks. Explain.",
+    "criteria": [
+      "Load includes runnable and uninterruptible tasks",
+      "compare CPU count and I/O wait",
+      "inspect blocked tasks and storage"
+    ],
+    "unsupported_example": "CPU overloaded"
+  },
+  {
+    "id": "LIN-02",
+    "domain": "Linux",
+    "split": "dev",
+    "question": "Filesystem df 100% but du totals much less. Diagnose.",
+    "criteria": [
+      "Deleted open files or hidden mounts are plausible",
+      "inspect lsof +L1 and mount layout",
+      "compare filesystem accounting"
+    ],
+    "unsupported_example": "Deleted files confirmed"
+  },
+  {
+    "id": "LIN-03",
+    "domain": "Linux",
+    "split": "dev",
+    "question": "Writes fail ENOSPC while df shows free blocks. Explain.",
+    "criteria": [
+      "Inode exhaustion or quota possible",
+      "inspect df -i and quota",
+      "check target mount"
+    ],
+    "unsupported_example": "Disk hardware failed"
+  },
+  {
+    "id": "LIN-04",
+    "domain": "Linux",
+    "split": "dev",
+    "question": "Process killed with SIGKILL but kernel log unavailable. Explain.",
+    "criteria": [
+      "Signal establishes termination mechanism not sender",
+      "inspect service manager and cgroup events",
+      "seek audit or kernel logs"
+    ],
+    "unsupported_example": "OOM confirmed"
+  },
+  {
+    "id": "LIN-05",
+    "domain": "Linux",
+    "split": "dev",
+    "question": "System swap usage high but no current swap-in/out. Explain.",
+    "criteria": [
+      "Allocated swap can persist",
+      "inspect vmstat and memory pressure",
+      "distinguish current thrashing from historical usage"
+    ],
+    "unsupported_example": "System currently thrashing"
+  },
+  {
+    "id": "LIN-06",
+    "domain": "Linux",
+    "split": "dev",
+    "question": "Connection refused to remote TCP port. Explain.",
+    "criteria": [
+      "Active rejection typically indicates no listener or reject rule",
+      "inspect listener and firewall",
+      "distinguish timeout from refusal"
+    ],
+    "unsupported_example": "Remote server is offline"
+  },
+  {
+    "id": "LIN-07",
+    "domain": "Linux",
+    "split": "dev",
+    "question": "File permission 777 but write fails read-only filesystem. Explain.",
+    "criteria": [
+      "Mount read-only overrides permission bits",
+      "inspect mount and kernel logs",
+      "investigate reason before remount"
+    ],
+    "unsupported_example": "chmod fixes it"
+  },
+  {
+    "id": "LIN-08",
+    "domain": "Linux",
+    "split": "dev",
+    "question": "Systemd service active but HTTP endpoint fails. Explain.",
+    "criteria": [
+      "Active state does not guarantee readiness",
+      "inspect listener and service logs",
+      "test local endpoint and dependencies"
+    ],
+    "unsupported_example": "Service is healthy"
+  },
+  {
+    "id": "LIN-09",
+    "domain": "Linux",
+    "split": "test",
+    "question": "CPU usage low but latency spikes with high steal time in VM. Explain.",
+    "criteria": [
+      "Steal suggests hypervisor scheduling contention",
+      "correlate per-CPU metrics and latency",
+      "inspect host/provider metrics"
+    ],
+    "unsupported_example": "Application CPU leak"
+  },
+  {
+    "id": "LIN-10",
+    "domain": "Linux",
+    "split": "test",
+    "question": "Process RSS exceeds cgroup memory.current for apparent same process. Explain.",
+    "criteria": [
+      "Accounting scopes and shared pages differ",
+      "verify cgroup membership and sampling",
+      "inspect memory.stat and smaps"
+    ],
+    "unsupported_example": "Kernel accounting is broken"
+  },
+  {
+    "id": "LIN-11",
+    "domain": "Linux",
+    "split": "test",
+    "question": "TLS certificate valid dates but client reports unknown authority. Explain.",
+    "criteria": [
+      "Validity dates do not establish trust",
+      "inspect chain and trust store",
+      "check presented intermediates"
+    ],
+    "unsupported_example": "Certificate expired"
+  },
+  {
+    "id": "LIN-12",
+    "domain": "Linux",
+    "split": "test",
+    "question": "Clock jumps cause negative elapsed times in logs. Explain.",
+    "criteria": [
+      "Wall clock adjustments can affect timestamps",
+      "use monotonic clock for durations",
+      "inspect time synchronization logs"
+    ],
+    "unsupported_example": "Application executed backward"
+  },
+  {
+    "id": "AWS-01",
+    "domain": "AWS",
+    "split": "dev",
+    "question": "EC2 SSH times out; security group allows TCP 22 from client IP. Diagnose.",
+    "criteria": [
+      "Security group alone insufficient",
+      "inspect routes NACL and public/private addressing",
+      "check instance listener and reachability"
+    ],
+    "unsupported_example": "Security group definitely at fault"
+  },
+  {
+    "id": "AWS-02",
+    "domain": "AWS",
+    "split": "dev",
+    "question": "S3 GetObject returns AccessDenied despite identity policy Allow. Diagnose.",
+    "criteria": [
+      "Other policy layers or explicit deny can override",
+      "inspect bucket policy SCP and endpoint policy",
+      "check KMS permissions if applicable"
+    ],
+    "unsupported_example": "IAM allow guarantees access"
+  },
+  {
+    "id": "AWS-03",
+    "domain": "AWS",
+    "split": "dev",
+    "question": "ALB target unhealthy with health check 404 but app root returns 200. Explain.",
+    "criteria": [
+      "Health check path may differ",
+      "inspect configured path and matcher",
+      "test target port and host behavior"
+    ],
+    "unsupported_example": "Application is down"
+  },
+  {
+    "id": "AWS-04",
+    "domain": "AWS",
+    "split": "dev",
+    "question": "Lambda timeout when accessing RDS after VPC attachment. Diagnose.",
+    "criteria": [
+      "Network or DB latency possible",
+      "inspect security groups routes DNS and connection timing",
+      "check DB connection limits"
+    ],
+    "unsupported_example": "Lambda needs NAT for private RDS"
+  },
+  {
+    "id": "AWS-05",
+    "domain": "AWS",
+    "split": "dev",
+    "question": "CloudWatch CPU low but EBS volume queue high and latency elevated. Explain.",
+    "criteria": [
+      "Storage bottleneck plausible",
+      "inspect IOPS throughput and burst metrics",
+      "correlate workload and latency"
+    ],
+    "unsupported_example": "CPU scaling will fix it"
+  },
+  {
+    "id": "AWS-06",
+    "domain": "AWS",
+    "split": "dev",
+    "question": "STS AssumeRole denied despite caller Allow. Explain.",
+    "criteria": [
+      "Trust policy also matters",
+      "inspect caller and target trust conditions",
+      "check SCP and permission boundaries"
+    ],
+    "unsupported_example": "Role does not exist"
+  },
+  {
+    "id": "AWS-07",
+    "domain": "AWS",
+    "split": "dev",
+    "question": "SQS messages reappear after worker completes processing. Diagnose.",
+    "criteria": [
+      "Visibility timeout or missing delete plausible",
+      "inspect receipt handle and delete outcome",
+      "ensure idempotency"
+    ],
+    "unsupported_example": "SQS lost messages"
+  },
+  {
+    "id": "AWS-08",
+    "domain": "AWS",
+    "split": "dev",
+    "question": "RDS connection fails after failover; application caches DNS indefinitely. Explain.",
+    "criteria": [
+      "Stale endpoint resolution plausible",
+      "inspect resolved address and failover events",
+      "refresh DNS and reconnect safely"
+    ],
+    "unsupported_example": "Database permanently lost"
+  },
+  {
+    "id": "AWS-09",
+    "domain": "AWS",
+    "split": "test",
+    "question": "Private subnet instance cannot reach S3 despite gateway endpoint. Diagnose.",
+    "criteria": [
+      "Endpoint route and policy matter",
+      "inspect route table association and region",
+      "check bucket policy and DNS"
+    ],
+    "unsupported_example": "NAT gateway mandatory"
+  },
+  {
+    "id": "AWS-10",
+    "domain": "AWS",
+    "split": "test",
+    "question": "CloudFront serves old object after S3 update. Explain.",
+    "criteria": [
+      "Cache TTL or cache key may explain",
+      "inspect Age and cache headers",
+      "use versioned URLs or invalidation"
+    ],
+    "unsupported_example": "S3 eventual consistency caused it"
+  },
+  {
+    "id": "AWS-11",
+    "domain": "AWS",
+    "split": "test",
+    "question": "ECS task stopped with CannotPullContainerError. Diagnose.",
+    "criteria": [
+      "Image pull failure established",
+      "inspect detailed reason and execution role",
+      "check registry connectivity and image existence"
+    ],
+    "unsupported_example": "Application crashed"
+  },
+  {
+    "id": "AWS-12",
+    "domain": "AWS",
+    "split": "test",
+    "question": "KMS decrypt denied with IAM Allow and key policy excludes caller. Explain.",
+    "criteria": [
+      "Key policy must permit access directly or delegate appropriately",
+      "inspect grants and conditions",
+      "verify key and region"
+    ],
+    "unsupported_example": "IAM Allow alone is sufficient"
+  }
+]
