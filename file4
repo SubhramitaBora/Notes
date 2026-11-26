@@ -1,0 +1,33 @@
+python - <<'PY'
+import json
+from pathlib import Path
+
+p = Path("Experiment11/results/failures_20261126_112643.jsonl")
+rows = [json.loads(x) for x in p.read_text().splitlines() if x.strip()]
+
+print("\nHYDRA 11A - FAILURE SUMMARY")
+print("=" * 65)
+
+for r in rows:
+    print(
+        r["id"],
+        "| Tokens:", r.get("generation_tokens"),
+        "| Truncated:", r.get("possibly_truncated"),
+        "| Repetition:", round(r.get("repetition_score", 0), 4),
+        "| Seconds:", round(r.get("seconds", 0), 3)
+    )
+
+n = len(rows)
+cut = sum(r.get("possibly_truncated") is True for r in rows)
+unknown = sum(r.get("possibly_truncated") is None for r in rows)
+
+print("=" * 65)
+print("Total questions:", n)
+print("Token limit reached:", cut)
+print("Unknown truncation status:", unknown)
+
+if n:
+    print("Confirmed token-limit rate:", round(100 * cut / n, 2), "%")
+    print("Average repetition:", round(sum(r.get("repetition_score", 0) for r in rows) / n, 4))
+    print("Average latency:", round(sum(r.get("seconds", 0) for r in rows) / n, 3), "seconds")
+PY
