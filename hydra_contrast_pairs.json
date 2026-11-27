@@ -1,0 +1,72 @@
+[
+  {
+    "id": "KUB-C01",
+    "split": "direction_dev",
+    "question": "A pod is Pending with an insufficient CPU scheduling event but CPU utilization is 10%. What does this establish?",
+    "correct": "The scheduler cannot fit the requested CPU within eligible node capacity.",
+    "incorrect": "The scheduler has measured high actual CPU utilization on every node."
+  },
+  {
+    "id": "KUB-C02",
+    "split": "direction_check",
+    "question": "A pod is CrashLoopBackOff. Does this identify the root cause?",
+    "correct": "The status indicates repeated container failures and restart backoff, not the root cause.",
+    "incorrect": "The status proves the container has exhausted its memory limit."
+  },
+  {
+    "id": "DOC-C01",
+    "split": "direction_dev",
+    "question": "A Docker registry returns unauthorized during image pull. Is the image missing?",
+    "correct": "The response indicates an authorization or authentication problem, not proof of a missing image.",
+    "incorrect": "The response proves the requested image does not exist."
+  },
+  {
+    "id": "DOC-C02",
+    "split": "direction_check",
+    "question": "A Docker build RUN command exits with code 1. Is the exact cause known?",
+    "correct": "The command failed; its output and context are needed to identify the cause.",
+    "incorrect": "The command failed because the base image is corrupted."
+  },
+  {
+    "id": "JEN-C01",
+    "split": "direction_dev",
+    "question": "A Jenkins build reports shell exit code 2. Does this identify the failing command?",
+    "correct": "The exit code alone does not identify the failing command.",
+    "incorrect": "The exit code alone identifies a missing Maven dependency."
+  },
+  {
+    "id": "JEN-C02",
+    "split": "direction_check",
+    "question": "A Jenkins agent disconnects during a build. Does this prove network failure?",
+    "correct": "The disconnection alone does not establish the underlying cause.",
+    "incorrect": "The disconnection proves the network link failed."
+  },
+  {
+    "id": "LIN-C01",
+    "split": "direction_dev",
+    "question": "Linux load average is 12. Does this prove CPU saturation?",
+    "correct": "Load average needs CPU capacity and task state context to establish saturation.",
+    "incorrect": "Load average of 12 proves CPU saturation regardless of CPU count."
+  },
+  {
+    "id": "LIN-C02",
+    "split": "direction_check",
+    "question": "A filesystem is 90 percent used. Does this prove an outage from disk exhaustion?",
+    "correct": "The utilization alone does not establish disk exhaustion or an outage.",
+    "incorrect": "The utilization proves that writes have already failed from disk exhaustion."
+  },
+  {
+    "id": "AWS-C01",
+    "split": "direction_dev",
+    "question": "S3 returns AccessDenied. Does this prove a missing IAM policy?",
+    "correct": "AccessDenied indicates denied access but does not identify the responsible policy.",
+    "incorrect": "AccessDenied proves that an IAM allow policy is missing."
+  },
+  {
+    "id": "AWS-C02",
+    "split": "direction_check",
+    "question": "An EC2 SSH connection times out. Does this prove a security group is blocking it?",
+    "correct": "A timeout alone does not establish which network or host component is responsible.",
+    "incorrect": "A timeout proves that the instance security group is blocking SSH."
+  }
+]
