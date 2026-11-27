@@ -1,0 +1,202 @@
+[
+  {
+    "id": "P01",
+    "domain": "Kubernetes",
+    "question": "A rollout uses minReadySeconds=60. New pods have been Ready for 15 seconds; old replicas remain and no errors appear.",
+    "A": "Wait for the availability interval before judging rollout failure.",
+    "B": "Treat Ready replicas as immediately available and delete old replicas.",
+    "correct": "A",
+    "rubric": "Ready is not Available until minReadySeconds elapses.",
+    "source_id": "F01"
+  },
+  {
+    "id": "P02",
+    "domain": "Kubernetes",
+    "question": "A pod requests 2 CPU. A node has 4 allocatable CPU, 3 already requested, and actual usage 0.4 CPU. Scheduler reports insufficient CPU.",
+    "A": "Free or resize CPU requests, or add allocatable capacity.",
+    "B": "Reduce actual CPU utilization without changing requests or capacity.",
+    "correct": "A",
+    "rubric": "Scheduling uses requests against allocatable capacity.",
+    "source_id": "F03"
+  },
+  {
+    "id": "P03",
+    "domain": "Kubernetes",
+    "question": "A Service selects two pods. EndpointSlice lists only one ready endpoint; the other pod is Running but readiness fails. Requests reach only one pod.",
+    "A": "Change the Service selector to include the Running pod before investigating probes.",
+    "B": "Investigate the failing readiness probe before changing Service selectors.",
+    "correct": "B",
+    "rubric": "Running does not imply ready; the selector already matches both.",
+    "source_id": "F02"
+  },
+  {
+    "id": "P04",
+    "domain": "Kubernetes",
+    "question": "A pod tolerates a NoSchedule taint but has required node affinity for zone A; all available nodes are zone B.",
+    "A": "Add another toleration to make zone B nodes eligible.",
+    "B": "Resolve required node affinity or provide eligible zone A capacity.",
+    "correct": "B",
+    "rubric": "Tolerations do not override required affinity.",
+    "source_id": "F04"
+  },
+  {
+    "id": "P05",
+    "domain": "Docker",
+    "question": "A build copies package manifests then runs npm ci, then copies source. Only source changes and dependency layer is cached.",
+    "A": "Keep dependency caching and inspect the later source build step.",
+    "B": "Invalidate dependency caching because every source edit changes the manifest layer.",
+    "correct": "A",
+    "rubric": "Earlier layers remain reusable when their inputs are unchanged.",
+    "source_id": "F12"
+  },
+  {
+    "id": "P06",
+    "domain": "Docker",
+    "question": "A container uses --memory=512m and reports OOMKilled=true; host has 20 GB free.",
+    "A": "Inspect container memory usage against its cgroup limit.",
+    "B": "Increase host free memory without changing the container limit.",
+    "correct": "A",
+    "rubric": "Container limit can trigger OOM despite host headroom.",
+    "source_id": "F14"
+  },
+  {
+    "id": "P07",
+    "domain": "Docker",
+    "question": "A container publishes 8080:80. The process listens on 127.0.0.1:80 inside the container; host requests fail while container loopback works.",
+    "A": "Publish another host port while retaining the loopback-only listener.",
+    "B": "Bind the process to an appropriate container interface.",
+    "correct": "B",
+    "rubric": "Port publishing cannot reach a loopback-only listener via container IP.",
+    "source_id": "F11"
+  },
+  {
+    "id": "P08",
+    "domain": "Docker",
+    "question": "A bind mount over /app hides files baked into the image; removing the mount reveals them.",
+    "A": "Rebuild the image to restore files while retaining the same masking mount.",
+    "B": "Inspect the host mount contents and destination.",
+    "correct": "B",
+    "rubric": "Bind mount obscures image contents at its destination.",
+    "source_id": "F13"
+  },
+  {
+    "id": "P09",
+    "domain": "Jenkins",
+    "question": "A pipeline stashes files on agent A and later uses agent B with an empty workspace; no unstash step exists.",
+    "A": "Unstash the artifacts on agent B before consuming them.",
+    "B": "Retry the consumer on agent B without transferring artifacts.",
+    "correct": "A",
+    "rubric": "Stash requires explicit unstash in the destination workspace.",
+    "source_id": "F21"
+  },
+  {
+    "id": "P10",
+    "domain": "Jenkins",
+    "question": "A parallel stage writes two branches to the same shared output path; each passes alone but concurrent runs corrupt files.",
+    "A": "Isolate branch output paths or synchronize shared writes.",
+    "B": "Increase parallelism while retaining the shared output path.",
+    "correct": "A",
+    "rubric": "Concurrent writes explain interference.",
+    "source_id": "F23"
+  },
+  {
+    "id": "P11",
+    "domain": "Jenkins",
+    "question": "A shell script runs tests piped to tee; shell lacks pipefail and tee exits zero while tests exit nonzero.",
+    "A": "Treat the successful tee exit as proof that tests passed.",
+    "B": "Preserve the test exit status using suitable shell handling.",
+    "correct": "B",
+    "rubric": "Pipeline status can be the last command status.",
+    "source_id": "F22"
+  },
+  {
+    "id": "P12",
+    "domain": "Jenkins",
+    "question": "A build is queued with label linux-arm; idle agents all have label linux-x86 only.",
+    "A": "Increase executors on agents that still lack the required label.",
+    "B": "Provide a matching agent or correct the label requirement.",
+    "correct": "B",
+    "rubric": "Executor availability does not satisfy label constraints.",
+    "source_id": "F24"
+  },
+  {
+    "id": "P13",
+    "domain": "Linux",
+    "question": "df -h shows free blocks but df -i shows zero free inodes; creating a tiny file fails ENOSPC.",
+    "A": "Free inodes or expand inode capacity where supported.",
+    "B": "Free only data blocks while leaving inode exhaustion unchanged.",
+    "correct": "A",
+    "rubric": "File creation needs an inode.",
+    "source_id": "F32"
+  },
+  {
+    "id": "P14",
+    "domain": "Linux",
+    "question": "A systemd service reads an environment file at startup; file was edited but process environment is unchanged.",
+    "A": "Restart the service safely to read the new environment.",
+    "B": "Run daemon-reload alone and expect existing process environment to change.",
+    "correct": "A",
+    "rubric": "Existing process environment does not update from file edits.",
+    "source_id": "F34"
+  },
+  {
+    "id": "P15",
+    "domain": "Linux",
+    "question": "df shows filesystem full; du totals much less; lsof shows a large deleted file held open by a process.",
+    "A": "Delete the already unlinked pathname again to reclaim its blocks.",
+    "B": "Arrange safe release of the open deleted file.",
+    "correct": "B",
+    "rubric": "Blocks remain allocated until final open reference closes.",
+    "source_id": "F31"
+  },
+  {
+    "id": "P16",
+    "domain": "Linux",
+    "question": "Load average is high, CPU mostly idle, many tasks in uninterruptible sleep, storage latency elevated.",
+    "A": "Treat load average as direct proof of CPU saturation.",
+    "B": "Investigate blocked I/O and storage latency.",
+    "correct": "B",
+    "rubric": "Linux load includes uninterruptible tasks.",
+    "source_id": "F33"
+  },
+  {
+    "id": "P17",
+    "domain": "AWS",
+    "question": "An IAM role allows s3:GetObject but a bucket policy explicitly denies the same principal and object; no exceptions match.",
+    "A": "Resolve the applicable explicit deny through authorized policy review.",
+    "B": "Add another identity allow for the same denied request.",
+    "correct": "A",
+    "rubric": "Explicit deny overrides allow.",
+    "source_id": "F41"
+  },
+  {
+    "id": "P18",
+    "domain": "AWS",
+    "question": "An ALB target group health check uses /health on port 8080; app serves /ready on 8080 and /health returns 404; matcher is 200.",
+    "A": "Align health check path with the intended readiness endpoint.",
+    "B": "Increase target capacity while retaining the failing health path.",
+    "correct": "A",
+    "rubric": "Health matcher rejects 404.",
+    "source_id": "F43"
+  },
+  {
+    "id": "P19",
+    "domain": "AWS",
+    "question": "An EC2 instance in a private subnet has route to NAT gateway; NAT public subnet lacks route to internet gateway.",
+    "A": "Add another private subnet NAT route while leaving NAT egress broken.",
+    "B": "Restore the required public subnet internet gateway route.",
+    "correct": "B",
+    "rubric": "Public NAT needs internet gateway connectivity.",
+    "source_id": "F42"
+  },
+  {
+    "id": "P20",
+    "domain": "AWS",
+    "question": "A security group permits inbound HTTPS; subnet NACL permits inbound 443 but denies outbound ephemeral response ports. TCP handshake fails.",
+    "A": "Add another inbound security group rule without fixing NACL return path.",
+    "B": "Review stateless NACL return-path rules.",
+    "correct": "B",
+    "rubric": "NACL is stateless and must allow return traffic.",
+    "source_id": "F44"
+  }
+]
