@@ -19,3 +19,73 @@ PY
 
 
 RUN="Experiment11/results/performance_1795775534119889000"
+
+
+
+
+
+python - "$RUN/report.txt" <<'PY'
+import sys
+import re
+from pathlib import Path
+
+report = Path(sys.argv[1]).read_text()
+data = {}
+condition = None
+
+for line in report.splitlines():
+    line = line.strip()
+
+    if re.fullmatch(r"P[0-4]", line):
+        condition = line
+        data[condition] = {}
+
+    elif condition and ":" in line:
+        key, value = line.split(":", 1)
+        try:
+            data[condition][key] = float(value.strip())
+        except ValueError:
+            pass
+
+base = data["P0"]
+
+names = {
+    "P0": "Original model",
+    "P1": "Concise generation",
+    "P2": "Weight editing only",
+    "P3": "Weight editing + concise",
+    "P4": "MLX optimization"
+}
+
+print("=" * 60)
+print("HYDRA - MODEL IMPROVEMENT SUMMARY")
+print("=" * 60)
+
+for condition, name in names.items():
+    row = data[condition]
+
+    latency = row["median_seconds"]
+    reduction = (
+        1 - latency / base["median_seconds"]
+    ) * 100
+
+    tokens = (
+        1 - row["mean_tokens"] / base["mean_tokens"]
+    ) * 100
+
+    print(f"\n{condition}: {name}")
+    print(f"Median latency: {latency:.4f} seconds")
+    print(f"Latency reduction: {reduction:.2f}%")
+    print(f"Token reduction: {tokens:.2f}%")
+    print(f"Speedup: {base['median_seconds']/latency:.2f}x")
+
+extra = (
+    1 - data["P3"]["median_seconds"]
+    / data["P1"]["median_seconds"]
+) * 100
+
+print("\nAdditional weight patch benefit:")
+print(f"{extra:.2f}% latency reduction")
+print("\nReliability: Pending semantic validation")
+print("=" * 60)
+PY
