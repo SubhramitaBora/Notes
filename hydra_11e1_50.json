@@ -1,0 +1,852 @@
+[
+  {
+    "id": "F01",
+    "domain": "Kubernetes",
+    "split": "discovery",
+    "question": "A rollout uses minReadySeconds=60. New pods have been Ready for 15 seconds; old replicas remain and no errors appear.",
+    "options": {
+      "A": "Wait for the availability interval before judging rollout failure.",
+      "B": "Treat Ready replicas as immediately available and delete old replicas."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Ready is not Available until minReadySeconds elapses."
+    ],
+    "correct_text": "Wait for the availability interval before judging rollout failure.",
+    "incorrect_text": "Treat Ready replicas as immediately available and delete old replicas."
+  },
+  {
+    "id": "F02",
+    "domain": "Kubernetes",
+    "split": "discovery",
+    "question": "A Service selects two pods. EndpointSlice lists only one ready endpoint; the other pod is Running but readiness fails. Requests reach only one pod.",
+    "options": {
+      "A": "Change the Service selector to include the Running pod before investigating probes.",
+      "B": "Investigate the failing readiness probe before changing Service selectors."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Running does not imply ready; the selector already matches both."
+    ],
+    "correct_text": "Investigate the failing readiness probe before changing Service selectors.",
+    "incorrect_text": "Change the Service selector to include the Running pod before investigating probes."
+  },
+  {
+    "id": "F03",
+    "domain": "Kubernetes",
+    "split": "discovery",
+    "question": "A pod requests 2 CPU. A node has 4 allocatable CPU, 3 already requested, and actual usage 0.4 CPU. Scheduler reports insufficient CPU.",
+    "options": {
+      "A": "Free or resize CPU requests, or add allocatable capacity.",
+      "B": "Reduce actual CPU utilization without changing requests or capacity."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Scheduling uses requests against allocatable capacity."
+    ],
+    "correct_text": "Free or resize CPU requests, or add allocatable capacity.",
+    "incorrect_text": "Reduce actual CPU utilization without changing requests or capacity."
+  },
+  {
+    "id": "F04",
+    "domain": "Kubernetes",
+    "split": "discovery",
+    "question": "A pod tolerates a NoSchedule taint but has required node affinity for zone A; all available nodes are zone B.",
+    "options": {
+      "A": "Add another toleration to make zone B nodes eligible.",
+      "B": "Resolve required node affinity or provide eligible zone A capacity."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Tolerations do not override required affinity."
+    ],
+    "correct_text": "Resolve required node affinity or provide eligible zone A capacity.",
+    "incorrect_text": "Add another toleration to make zone B nodes eligible."
+  },
+  {
+    "id": "F05",
+    "domain": "Kubernetes",
+    "split": "discovery",
+    "question": "A CronJob has concurrencyPolicy Forbid; its previous Job is still active when the next schedule arrives.",
+    "options": {
+      "A": "Investigate the active Job and skipped schedule.",
+      "B": "Investigate image pulling as the established cause of the skipped schedule."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Forbid skips concurrent execution; no image pull evidence."
+    ],
+    "correct_text": "Investigate the active Job and skipped schedule.",
+    "incorrect_text": "Investigate image pulling as the established cause of the skipped schedule."
+  },
+  {
+    "id": "F06",
+    "domain": "Kubernetes",
+    "split": "discovery",
+    "question": "A Deployment has replicas=3, HPA minimum=2 maximum=10, current desired=7; GitOps reapplies replicas=3 every minute.",
+    "options": {
+      "A": "Increase HPA maximum while retaining periodic replica resets.",
+      "B": "Resolve competing replica ownership between GitOps and HPA."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Both controllers write desired replica count."
+    ],
+    "correct_text": "Resolve competing replica ownership between GitOps and HPA.",
+    "incorrect_text": "Increase HPA maximum while retaining periodic replica resets."
+  },
+  {
+    "id": "F07",
+    "domain": "Kubernetes",
+    "split": "check",
+    "question": "A container exits with code 0 after completing a one-shot task; Deployment restartPolicy Always causes repeated restarts.",
+    "options": {
+      "A": "Use a Job if the workload is intended to terminate successfully.",
+      "B": "Increase memory limits to prevent the successful process exit."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Exit zero and Always restart fit a one-shot workload mismatch."
+    ],
+    "correct_text": "Use a Job if the workload is intended to terminate successfully.",
+    "incorrect_text": "Increase memory limits to prevent the successful process exit."
+  },
+  {
+    "id": "F08",
+    "domain": "Kubernetes",
+    "split": "check",
+    "question": "A NetworkPolicy selects a server and allows ingress from namespace label team=blue. Client namespace is labeled team=green; DNS resolves and TCP times out. No other ingress policies apply.",
+    "options": {
+      "A": "Change DNS records to resolve the existing Service address again.",
+      "B": "Check the namespace selector against the intended access policy."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Ingress policy excludes the client; DNS already resolves."
+    ],
+    "correct_text": "Check the namespace selector against the intended access policy.",
+    "incorrect_text": "Change DNS records to resolve the existing Service address again."
+  },
+  {
+    "id": "F09",
+    "domain": "Kubernetes",
+    "split": "check",
+    "question": "A PVC is Bound to a local PV with node affinity node A. Pod requires node B and scheduler reports volume node affinity conflict.",
+    "options": {
+      "A": "Reconcile pod placement with the local volume affinity.",
+      "B": "Increase requested storage capacity while retaining incompatible placement."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Bound local storage constrains placement."
+    ],
+    "correct_text": "Reconcile pod placement with the local volume affinity.",
+    "incorrect_text": "Increase requested storage capacity while retaining incompatible placement."
+  },
+  {
+    "id": "F10",
+    "domain": "Kubernetes",
+    "split": "check",
+    "question": "A pod has a startup probe that has not succeeded; liveness failure threshold would otherwise be exceeded. Startup probe is still within its failure budget.",
+    "options": {
+      "A": "Attribute the current startup delay to active liveness probe failures.",
+      "B": "Investigate startup probe progress before attributing restarts to liveness."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Startup probe gates liveness and readiness until success."
+    ],
+    "correct_text": "Investigate startup probe progress before attributing restarts to liveness.",
+    "incorrect_text": "Attribute the current startup delay to active liveness probe failures."
+  },
+  {
+    "id": "F11",
+    "domain": "Docker",
+    "split": "discovery",
+    "question": "A container publishes 8080:80. The process listens on 127.0.0.1:80 inside the container; host requests fail while container loopback works.",
+    "options": {
+      "A": "Publish another host port while retaining the loopback-only listener.",
+      "B": "Bind the process to an appropriate container interface."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Port publishing cannot reach a loopback-only listener via container IP."
+    ],
+    "correct_text": "Bind the process to an appropriate container interface.",
+    "incorrect_text": "Publish another host port while retaining the loopback-only listener."
+  },
+  {
+    "id": "F12",
+    "domain": "Docker",
+    "split": "discovery",
+    "question": "A build copies package manifests then runs npm ci, then copies source. Only source changes and dependency layer is cached.",
+    "options": {
+      "A": "Keep dependency caching and inspect the later source build step.",
+      "B": "Invalidate dependency caching because every source edit changes the manifest layer."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Earlier layers remain reusable when their inputs are unchanged."
+    ],
+    "correct_text": "Keep dependency caching and inspect the later source build step.",
+    "incorrect_text": "Invalidate dependency caching because every source edit changes the manifest layer."
+  },
+  {
+    "id": "F13",
+    "domain": "Docker",
+    "split": "discovery",
+    "question": "A bind mount over /app hides files baked into the image; removing the mount reveals them.",
+    "options": {
+      "A": "Rebuild the image to restore files while retaining the same masking mount.",
+      "B": "Inspect the host mount contents and destination."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Bind mount obscures image contents at its destination."
+    ],
+    "correct_text": "Inspect the host mount contents and destination.",
+    "incorrect_text": "Rebuild the image to restore files while retaining the same masking mount."
+  },
+  {
+    "id": "F14",
+    "domain": "Docker",
+    "split": "discovery",
+    "question": "A container uses --memory=512m and reports OOMKilled=true; host has 20 GB free.",
+    "options": {
+      "A": "Inspect container memory usage against its cgroup limit.",
+      "B": "Increase host free memory without changing the container limit."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Container limit can trigger OOM despite host headroom."
+    ],
+    "correct_text": "Inspect container memory usage against its cgroup limit.",
+    "incorrect_text": "Increase host free memory without changing the container limit."
+  },
+  {
+    "id": "F15",
+    "domain": "Docker",
+    "split": "discovery",
+    "question": "An amd64-only image is run on arm64 without emulation; executable fails with exec format error.",
+    "options": {
+      "A": "Change published ports to match the executable architecture.",
+      "B": "Use a compatible architecture image or configured emulation."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Executable architecture mismatch explains the error."
+    ],
+    "correct_text": "Use a compatible architecture image or configured emulation.",
+    "incorrect_text": "Change published ports to match the executable architecture."
+  },
+  {
+    "id": "F16",
+    "domain": "Docker",
+    "split": "discovery",
+    "question": "Two Compose services share a network. Client connects to localhost:5432 but database listens in the other container.",
+    "options": {
+      "A": "Use the database service name and container port.",
+      "B": "Use localhost and publish a different database host port."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Container localhost refers to itself."
+    ],
+    "correct_text": "Use the database service name and container port.",
+    "incorrect_text": "Use localhost and publish a different database host port."
+  },
+  {
+    "id": "F17",
+    "domain": "Docker",
+    "split": "check",
+    "question": "A multi-stage build compiles a binary in stage builder but final stage copies only configuration; runtime says binary missing.",
+    "options": {
+      "A": "Install more compiler dependencies in builder without changing final copy.",
+      "B": "Copy the binary into the final stage and verify its path."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Artifacts do not automatically transfer between stages."
+    ],
+    "correct_text": "Copy the binary into the final stage and verify its path.",
+    "incorrect_text": "Install more compiler dependencies in builder without changing final copy."
+  },
+  {
+    "id": "F18",
+    "domain": "Docker",
+    "split": "check",
+    "question": "A container runs as UID 1001; mounted directory is owned by UID 1000 with mode 0700. Root filesystem is writable.",
+    "options": {
+      "A": "Adjust mount permissions or runtime identity appropriately.",
+      "B": "Make the image filesystem writable again without changing mount permissions."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Host mount permissions deny UID 1001."
+    ],
+    "correct_text": "Adjust mount permissions or runtime identity appropriately.",
+    "incorrect_text": "Make the image filesystem writable again without changing mount permissions."
+  },
+  {
+    "id": "F19",
+    "domain": "Docker",
+    "split": "check",
+    "question": "A healthcheck fails but PID 1 remains running. Standalone Docker restart policy is on-failure.",
+    "options": {
+      "A": "Expect on-failure to restart the container solely because health is unhealthy.",
+      "B": "Investigate healthcheck and application behavior separately from exit-based restart policy."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Standalone restart policy responds to process exit, not health status alone."
+    ],
+    "correct_text": "Investigate healthcheck and application behavior separately from exit-based restart policy.",
+    "incorrect_text": "Expect on-failure to restart the container solely because health is unhealthy."
+  },
+  {
+    "id": "F20",
+    "domain": "Docker",
+    "split": "check",
+    "question": "A tag latest was updated remotely; an existing container still uses the old image ID after docker restart.",
+    "options": {
+      "A": "Pull the updated image and recreate the container.",
+      "B": "Restart the existing container again to replace its image ID."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Restart does not recreate from a newer image."
+    ],
+    "correct_text": "Pull the updated image and recreate the container.",
+    "incorrect_text": "Restart the existing container again to replace its image ID."
+  },
+  {
+    "id": "F21",
+    "domain": "Jenkins",
+    "split": "discovery",
+    "question": "A pipeline stashes files on agent A and later uses agent B with an empty workspace; no unstash step exists.",
+    "options": {
+      "A": "Unstash the artifacts on agent B before consuming them.",
+      "B": "Retry the consumer on agent B without transferring artifacts."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Stash requires explicit unstash in the destination workspace."
+    ],
+    "correct_text": "Unstash the artifacts on agent B before consuming them.",
+    "incorrect_text": "Retry the consumer on agent B without transferring artifacts."
+  },
+  {
+    "id": "F22",
+    "domain": "Jenkins",
+    "split": "discovery",
+    "question": "A shell script runs tests piped to tee; shell lacks pipefail and tee exits zero while tests exit nonzero.",
+    "options": {
+      "A": "Treat the successful tee exit as proof that tests passed.",
+      "B": "Preserve the test exit status using suitable shell handling."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Pipeline status can be the last command status."
+    ],
+    "correct_text": "Preserve the test exit status using suitable shell handling.",
+    "incorrect_text": "Treat the successful tee exit as proof that tests passed."
+  },
+  {
+    "id": "F23",
+    "domain": "Jenkins",
+    "split": "discovery",
+    "question": "A parallel stage writes two branches to the same shared output path; each passes alone but concurrent runs corrupt files.",
+    "options": {
+      "A": "Isolate branch output paths or synchronize shared writes.",
+      "B": "Increase parallelism while retaining the shared output path."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Concurrent writes explain interference."
+    ],
+    "correct_text": "Isolate branch output paths or synchronize shared writes.",
+    "incorrect_text": "Increase parallelism while retaining the shared output path."
+  },
+  {
+    "id": "F24",
+    "domain": "Jenkins",
+    "split": "discovery",
+    "question": "A build is queued with label linux-arm; idle agents all have label linux-x86 only.",
+    "options": {
+      "A": "Increase executors on agents that still lack the required label.",
+      "B": "Provide a matching agent or correct the label requirement."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Executor availability does not satisfy label constraints."
+    ],
+    "correct_text": "Provide a matching agent or correct the label requirement.",
+    "incorrect_text": "Increase executors on agents that still lack the required label."
+  },
+  {
+    "id": "F25",
+    "domain": "Jenkins",
+    "split": "discovery",
+    "question": "A credential is scoped to folder A; job in folder B cannot resolve its ID; network connectivity works.",
+    "options": {
+      "A": "Check credential scope and authorized job access.",
+      "B": "Retry network connectivity without changing credential visibility."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Folder scope limits credential resolution."
+    ],
+    "correct_text": "Check credential scope and authorized job access.",
+    "incorrect_text": "Retry network connectivity without changing credential visibility."
+  },
+  {
+    "id": "F26",
+    "domain": "Jenkins",
+    "split": "discovery",
+    "question": "A declarative pipeline uses skipDefaultCheckout and invokes a build in a fresh workspace without checkout scm.",
+    "options": {
+      "A": "Increase build timeout while leaving the workspace empty.",
+      "B": "Perform explicit source checkout before building."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Default checkout was intentionally disabled."
+    ],
+    "correct_text": "Perform explicit source checkout before building.",
+    "incorrect_text": "Increase build timeout while leaving the workspace empty."
+  },
+  {
+    "id": "F27",
+    "domain": "Jenkins",
+    "split": "check",
+    "question": "A stage has catchError configured to continue after a failed command and mark the build unstable. Deployment later runs.",
+    "options": {
+      "A": "Gate deployment explicitly on the required build result.",
+      "B": "Assume catchError automatically prevents every later stage."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "catchError allows execution to continue."
+    ],
+    "correct_text": "Gate deployment explicitly on the required build result.",
+    "incorrect_text": "Assume catchError automatically prevents every later stage."
+  },
+  {
+    "id": "F28",
+    "domain": "Jenkins",
+    "split": "check",
+    "question": "A pipeline uses a stage-level timeout; agent provisioning consumes most of that timeout before steps begin.",
+    "options": {
+      "A": "Measure only shell runtime when explaining the stage timeout.",
+      "B": "Account for agent allocation in the stage timeout."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Stage-level timeout includes agent allocation in declarative pipelines."
+    ],
+    "correct_text": "Account for agent allocation in the stage timeout.",
+    "incorrect_text": "Measure only shell runtime when explaining the stage timeout."
+  },
+  {
+    "id": "F29",
+    "domain": "Jenkins",
+    "split": "check",
+    "question": "A Maven build uses an offline flag and a fresh agent cache; a required dependency is absent locally.",
+    "options": {
+      "A": "Populate the dependency cache or allow approved repository access.",
+      "B": "Change Java heap size while keeping the dependency unavailable offline."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Offline resolution requires cached dependencies."
+    ],
+    "correct_text": "Populate the dependency cache or allow approved repository access.",
+    "incorrect_text": "Change Java heap size while keeping the dependency unavailable offline."
+  },
+  {
+    "id": "F30",
+    "domain": "Jenkins",
+    "split": "check",
+    "question": "A downstream job is triggered with wait=false; upstream succeeds before downstream fails.",
+    "options": {
+      "A": "Interpret upstream success as confirmation of downstream success.",
+      "B": "Track downstream result explicitly or wait for completion."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Asynchronous triggering does not establish downstream result."
+    ],
+    "correct_text": "Track downstream result explicitly or wait for completion.",
+    "incorrect_text": "Interpret upstream success as confirmation of downstream success."
+  },
+  {
+    "id": "F31",
+    "domain": "Linux",
+    "split": "discovery",
+    "question": "df shows filesystem full; du totals much less; lsof shows a large deleted file held open by a process.",
+    "options": {
+      "A": "Delete the already unlinked pathname again to reclaim its blocks.",
+      "B": "Arrange safe release of the open deleted file."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Blocks remain allocated until final open reference closes."
+    ],
+    "correct_text": "Arrange safe release of the open deleted file.",
+    "incorrect_text": "Delete the already unlinked pathname again to reclaim its blocks."
+  },
+  {
+    "id": "F32",
+    "domain": "Linux",
+    "split": "discovery",
+    "question": "df -h shows free blocks but df -i shows zero free inodes; creating a tiny file fails ENOSPC.",
+    "options": {
+      "A": "Free inodes or expand inode capacity where supported.",
+      "B": "Free only data blocks while leaving inode exhaustion unchanged."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "File creation needs an inode."
+    ],
+    "correct_text": "Free inodes or expand inode capacity where supported.",
+    "incorrect_text": "Free only data blocks while leaving inode exhaustion unchanged."
+  },
+  {
+    "id": "F33",
+    "domain": "Linux",
+    "split": "discovery",
+    "question": "Load average is high, CPU mostly idle, many tasks in uninterruptible sleep, storage latency elevated.",
+    "options": {
+      "A": "Treat load average as direct proof of CPU saturation.",
+      "B": "Investigate blocked I/O and storage latency."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Linux load includes uninterruptible tasks."
+    ],
+    "correct_text": "Investigate blocked I/O and storage latency.",
+    "incorrect_text": "Treat load average as direct proof of CPU saturation."
+  },
+  {
+    "id": "F34",
+    "domain": "Linux",
+    "split": "discovery",
+    "question": "A systemd service reads an environment file at startup; file was edited but process environment is unchanged.",
+    "options": {
+      "A": "Restart the service safely to read the new environment.",
+      "B": "Run daemon-reload alone and expect existing process environment to change."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Existing process environment does not update from file edits."
+    ],
+    "correct_text": "Restart the service safely to read the new environment.",
+    "incorrect_text": "Run daemon-reload alone and expect existing process environment to change."
+  },
+  {
+    "id": "F35",
+    "domain": "Linux",
+    "split": "discovery",
+    "question": "A file is mode 0644 and owned by the user, but a parent directory lacks execute permission for that user; opening fails.",
+    "options": {
+      "A": "Add file read permission while retaining blocked directory traversal.",
+      "B": "Restore appropriate directory traversal permission."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Path traversal requires directory execute permission."
+    ],
+    "correct_text": "Restore appropriate directory traversal permission.",
+    "incorrect_text": "Add file read permission while retaining blocked directory traversal."
+  },
+  {
+    "id": "F36",
+    "domain": "Linux",
+    "split": "discovery",
+    "question": "A filesystem is mounted read-only after errors; root cannot create files despite permissive directory modes.",
+    "options": {
+      "A": "Investigate filesystem errors and safe recovery before remounting.",
+      "B": "Change directory permissions while retaining read-only mount."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Read-only mount blocks writes independently of mode bits."
+    ],
+    "correct_text": "Investigate filesystem errors and safe recovery before remounting.",
+    "incorrect_text": "Change directory permissions while retaining read-only mount."
+  },
+  {
+    "id": "F37",
+    "domain": "Linux",
+    "split": "check",
+    "question": "A process is killed by a memory cgroup; system-wide free memory remains high and cgroup memory.events oom_kill increases.",
+    "options": {
+      "A": "Attribute the event to proven system-wide memory exhaustion.",
+      "B": "Inspect the cgroup memory limit and workload usage."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Cgroup OOM can occur without global OOM."
+    ],
+    "correct_text": "Inspect the cgroup memory limit and workload usage.",
+    "incorrect_text": "Attribute the event to proven system-wide memory exhaustion."
+  },
+  {
+    "id": "F38",
+    "domain": "Linux",
+    "split": "check",
+    "question": "A service listens on IPv6 loopback ::1 only; IPv4 client uses 127.0.0.1 and receives connection refused.",
+    "options": {
+      "A": "Check listener address family and bind configuration.",
+      "B": "Change DNS resolver settings for the literal IPv4 address."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Literal address bypasses DNS; listener is on different family."
+    ],
+    "correct_text": "Check listener address family and bind configuration.",
+    "incorrect_text": "Change DNS resolver settings for the literal IPv4 address."
+  },
+  {
+    "id": "F39",
+    "domain": "Linux",
+    "split": "check",
+    "question": "A shell command is found in an interactive session but not in cron; cron PATH excludes its directory.",
+    "options": {
+      "A": "Change executable permissions despite successful interactive execution.",
+      "B": "Use an explicit executable path or configure cron PATH."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Different PATH explains command lookup failure."
+    ],
+    "correct_text": "Use an explicit executable path or configure cron PATH.",
+    "incorrect_text": "Change executable permissions despite successful interactive execution."
+  },
+  {
+    "id": "F40",
+    "domain": "Linux",
+    "split": "check",
+    "question": "A process writes to a log after rotation by rename; new log stays empty and old inode grows.",
+    "options": {
+      "A": "Configure supported log reopening after rotation.",
+      "B": "Rename the new empty log again without reopening the process descriptor."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Open descriptor continues pointing to old inode."
+    ],
+    "correct_text": "Configure supported log reopening after rotation.",
+    "incorrect_text": "Rename the new empty log again without reopening the process descriptor."
+  },
+  {
+    "id": "F41",
+    "domain": "AWS",
+    "split": "discovery",
+    "question": "An IAM role allows s3:GetObject but a bucket policy explicitly denies the same principal and object; no exceptions match.",
+    "options": {
+      "A": "Resolve the applicable explicit deny through authorized policy review.",
+      "B": "Add another identity allow for the same denied request."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Explicit deny overrides allow."
+    ],
+    "correct_text": "Resolve the applicable explicit deny through authorized policy review.",
+    "incorrect_text": "Add another identity allow for the same denied request."
+  },
+  {
+    "id": "F42",
+    "domain": "AWS",
+    "split": "discovery",
+    "question": "An EC2 instance in a private subnet has route to NAT gateway; NAT public subnet lacks route to internet gateway.",
+    "options": {
+      "A": "Add another private subnet NAT route while leaving NAT egress broken.",
+      "B": "Restore the required public subnet internet gateway route."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Public NAT needs internet gateway connectivity."
+    ],
+    "correct_text": "Restore the required public subnet internet gateway route.",
+    "incorrect_text": "Add another private subnet NAT route while leaving NAT egress broken."
+  },
+  {
+    "id": "F43",
+    "domain": "AWS",
+    "split": "discovery",
+    "question": "An ALB target group health check uses /health on port 8080; app serves /ready on 8080 and /health returns 404; matcher is 200.",
+    "options": {
+      "A": "Align health check path with the intended readiness endpoint.",
+      "B": "Increase target capacity while retaining the failing health path."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Health matcher rejects 404."
+    ],
+    "correct_text": "Align health check path with the intended readiness endpoint.",
+    "incorrect_text": "Increase target capacity while retaining the failing health path."
+  },
+  {
+    "id": "F44",
+    "domain": "AWS",
+    "split": "discovery",
+    "question": "A security group permits inbound HTTPS; subnet NACL permits inbound 443 but denies outbound ephemeral response ports. TCP handshake fails.",
+    "options": {
+      "A": "Add another inbound security group rule without fixing NACL return path.",
+      "B": "Review stateless NACL return-path rules."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "NACL is stateless and must allow return traffic."
+    ],
+    "correct_text": "Review stateless NACL return-path rules.",
+    "incorrect_text": "Add another inbound security group rule without fixing NACL return path."
+  },
+  {
+    "id": "F45",
+    "domain": "AWS",
+    "split": "discovery",
+    "question": "An SQS standard queue delivers a message twice; consumer deleted first receipt after processing but duplicate still arrives.",
+    "options": {
+      "A": "Make processing idempotent for at-least-once delivery.",
+      "B": "Assume successful deletion guarantees no duplicate processing."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Standard queues provide at-least-once delivery."
+    ],
+    "correct_text": "Make processing idempotent for at-least-once delivery.",
+    "incorrect_text": "Assume successful deletion guarantees no duplicate processing."
+  },
+  {
+    "id": "F46",
+    "domain": "AWS",
+    "split": "discovery",
+    "question": "An Auto Scaling group desired=4 maximum=4; scaling alarm requests more capacity while all four instances are healthy.",
+    "options": {
+      "A": "Raise desired capacity above the unchanged maximum.",
+      "B": "Review maximum capacity and scaling policy constraints."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Maximum bounds desired capacity."
+    ],
+    "correct_text": "Review maximum capacity and scaling policy constraints.",
+    "incorrect_text": "Raise desired capacity above the unchanged maximum."
+  },
+  {
+    "id": "F47",
+    "domain": "AWS",
+    "split": "check",
+    "question": "A Lambda function in a VPC public subnet has no public IP and no NAT route; calls to a public API time out.",
+    "options": {
+      "A": "Provide appropriate outbound connectivity such as NAT for IPv4.",
+      "B": "Rely on the public subnet internet gateway route alone."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "VPC Lambda ENIs do not receive public IPs."
+    ],
+    "correct_text": "Provide appropriate outbound connectivity such as NAT for IPv4.",
+    "incorrect_text": "Rely on the public subnet internet gateway route alone."
+  },
+  {
+    "id": "F48",
+    "domain": "AWS",
+    "split": "check",
+    "question": "An EBS volume is in AZ A; replacement EC2 instance is in AZ B; direct attachment fails.",
+    "options": {
+      "A": "Retry direct attachment across availability zones.",
+      "B": "Use same-AZ placement or restore a snapshot to a volume in AZ B."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "EBS volume attachment is AZ constrained."
+    ],
+    "correct_text": "Use same-AZ placement or restore a snapshot to a volume in AZ B.",
+    "incorrect_text": "Retry direct attachment across availability zones."
+  },
+  {
+    "id": "F49",
+    "domain": "AWS",
+    "split": "check",
+    "question": "A CloudWatch alarm treats missing data as notBreaching; metric publishing stops and alarm remains OK.",
+    "options": {
+      "A": "Check metric publication and missing-data treatment.",
+      "B": "Interpret OK as proof the workload is currently healthy."
+    },
+    "correct": "A",
+    "incorrect": "B",
+    "criteria": [
+      "Missing data policy can mask absent telemetry."
+    ],
+    "correct_text": "Check metric publication and missing-data treatment.",
+    "incorrect_text": "Interpret OK as proof the workload is currently healthy."
+  },
+  {
+    "id": "F50",
+    "domain": "AWS",
+    "split": "check",
+    "question": "An S3 presigned URL was signed with temporary role credentials that expired before the URL expiration timestamp.",
+    "options": {
+      "A": "Extend only the URL expiration while retaining expired signing credentials.",
+      "B": "Generate a new URL with valid credentials and suitable lifetime."
+    },
+    "correct": "B",
+    "incorrect": "A",
+    "criteria": [
+      "Presigned URL cannot outlive underlying temporary credentials."
+    ],
+    "correct_text": "Generate a new URL with valid credentials and suitable lifetime.",
+    "incorrect_text": "Extend only the URL expiration while retaining expired signing credentials."
+  }
+]
