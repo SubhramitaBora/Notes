@@ -1,0 +1,30 @@
+python - "$RUN" <<'PY'
+import csv
+import sys
+from pathlib import Path
+from collections import Counter
+
+path = Path(sys.argv[1]) / "responses.csv"
+
+with path.open(newline="") as f:
+    rows = list(csv.DictReader(f))
+
+print("Total responses:", len(rows))
+
+for condition in ["P0", "P1", "P2", "P3", "P4"]:
+    group = [
+        r for r in rows
+        if r["condition"] == condition
+    ]
+
+    print("\nCONFIGURATION:", condition)
+    print("Detected choices:",
+          Counter(r["choice"] for r in group))
+
+    for r in group[:2]:
+        print("ID:", r["id"])
+        print("Expected:", r["expected"])
+        print("Detected:", repr(r["choice"]))
+        print("Answer:", r["answer"][:500])
+        print("-" * 50)
+PY
