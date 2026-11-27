@@ -1,0 +1,122 @@
+[
+  {
+    "id": "E011",
+    "domain": "Kubernetes",
+    "kind": "target",
+    "question": "A pod is unready; no probe events are available. Does the supplied evidence establish a readiness probe failure?",
+    "correct": "The supplied evidence does not establish a readiness probe failure.",
+    "incorrect": "The supplied evidence establishes a readiness probe failure."
+  },
+  {
+    "id": "E012",
+    "domain": "Kubernetes",
+    "kind": "target",
+    "question": "A pod is unready and its event explicitly says readiness probe failed. Does the supplied evidence establish a readiness probe failure?",
+    "correct": "The supplied evidence establishes a readiness probe failure.",
+    "incorrect": "The supplied evidence does not establish a readiness probe failure."
+  },
+  {
+    "id": "E021",
+    "domain": "Docker",
+    "kind": "target",
+    "question": "A container exits with code 1; no application logs are available. Does the supplied evidence establish a configuration parse error?",
+    "correct": "The supplied evidence does not establish a configuration parse error.",
+    "incorrect": "The supplied evidence establishes a configuration parse error."
+  },
+  {
+    "id": "E022",
+    "domain": "Docker",
+    "kind": "target",
+    "question": "A container exits with code 1 and its application log explicitly reports a configuration parse error. Does the supplied evidence establish a configuration parse error?",
+    "correct": "The supplied evidence establishes a configuration parse error.",
+    "incorrect": "The supplied evidence does not establish a configuration parse error."
+  },
+  {
+    "id": "E031",
+    "domain": "Jenkins",
+    "kind": "target",
+    "question": "A build fails; no test report is available. Does the supplied evidence establish a failed test assertion?",
+    "correct": "The supplied evidence does not establish a failed test assertion.",
+    "incorrect": "The supplied evidence establishes a failed test assertion."
+  },
+  {
+    "id": "E032",
+    "domain": "Jenkins",
+    "kind": "target",
+    "question": "A build fails and its test report explicitly records a failed assertion. Does the supplied evidence establish a failed test assertion?",
+    "correct": "The supplied evidence establishes a failed test assertion.",
+    "incorrect": "The supplied evidence does not establish a failed test assertion."
+  },
+  {
+    "id": "E041",
+    "domain": "Linux",
+    "kind": "target",
+    "question": "A process exits unexpectedly; no kernel logs are available. Does the supplied evidence establish an OOM kill?",
+    "correct": "The supplied evidence does not establish an OOM kill.",
+    "incorrect": "The supplied evidence establishes an OOM kill."
+  },
+  {
+    "id": "E042",
+    "domain": "Linux",
+    "kind": "target",
+    "question": "A process exits and the kernel log explicitly records an OOM kill of that process. Does the supplied evidence establish an OOM kill?",
+    "correct": "The supplied evidence establishes an OOM kill.",
+    "incorrect": "The supplied evidence does not establish an OOM kill."
+  },
+  {
+    "id": "E051",
+    "domain": "AWS",
+    "kind": "target",
+    "question": "An API request fails; no error code is available. Does the supplied evidence establish request throttling?",
+    "correct": "The supplied evidence does not establish request throttling.",
+    "incorrect": "The supplied evidence establishes request throttling."
+  },
+  {
+    "id": "E052",
+    "domain": "AWS",
+    "kind": "target",
+    "question": "An API request fails and its response explicitly reports ThrottlingException. Does the supplied evidence establish request throttling?",
+    "correct": "The supplied evidence establishes request throttling.",
+    "incorrect": "The supplied evidence does not establish request throttling."
+  },
+  {
+    "id": "R01",
+    "domain": "Kubernetes",
+    "kind": "regression",
+    "question": "Which resource provides a stable virtual IP for a set of pods?",
+    "correct": "A Service provides the stable virtual IP.",
+    "incorrect": "A ConfigMap provides the stable virtual IP."
+  },
+  {
+    "id": "R02",
+    "domain": "Docker",
+    "kind": "regression",
+    "question": "Which command lists running containers?",
+    "correct": "docker ps lists running containers.",
+    "incorrect": "docker images lists running containers."
+  },
+  {
+    "id": "R03",
+    "domain": "Jenkins",
+    "kind": "regression",
+    "question": "Which pipeline directive defines the execution environment?",
+    "correct": "The agent directive defines the execution environment.",
+    "incorrect": "The post directive defines the execution environment."
+  },
+  {
+    "id": "R04",
+    "domain": "Linux",
+    "kind": "regression",
+    "question": "Which command displays filesystem space usage?",
+    "correct": "df displays filesystem space usage.",
+    "incorrect": "ps displays filesystem space usage."
+  },
+  {
+    "id": "R05",
+    "domain": "AWS",
+    "kind": "regression",
+    "question": "Which service provides object storage?",
+    "correct": "Amazon S3 provides object storage.",
+    "incorrect": "Amazon EC2 provides object storage."
+  }
+]
